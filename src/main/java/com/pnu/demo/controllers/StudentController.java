@@ -10,7 +10,7 @@ public class StudentController {
     private StudentService service;
 
     @PostMapping(value = "/students")
-    public String createStudent(@PathVariable("name") String name, @PathVariable("course") String course) {
+    public String createStudent(String name, String course) {
         Student student = new Student(name, course);
         service.save(student);
         return "Student created with ID: " + student.getId();
