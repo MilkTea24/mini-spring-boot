@@ -67,6 +67,7 @@ public class BeanDefinition {
 
     private void addConstructorDependencies(Constructor<?>[] constructors){
         //생성자가 하나면 Autowired 어노테이션 생략 가능
+        /*
         if (constructors.length == 1) {
             for (Parameter parameter : constructors[0].getParameters()) {
                 constructorDependencies.add(parameter.getType());
@@ -74,6 +75,7 @@ public class BeanDefinition {
             autowiredConstructor = constructors[0];
             return;
         }
+         */
 
         for (Constructor<?> constructor : constructors) {
             if (!constructor.isAnnotationPresent(Autowired.class)) continue;
@@ -83,5 +85,10 @@ public class BeanDefinition {
             }
             autowiredConstructor = constructor;
         }
+    }
+
+    @Override
+    public String toString() {
+        return beanType.getName();
     }
 }
