@@ -11,40 +11,54 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AutowiredAnnotationBeanPostProcessorTest {
+public class CommonAnnotationBeanPostProcessorTest {
     MockBeanFactory mockBeanFactory;
     @BeforeEach
     void setup() {
         Map<Class<?>, Object> instances = new HashMap<>();
-        instances.put(ClassList.A.class, new ClassList.A());
-        instances.put(ClassList.B.class, new ClassList.B());
-        instances.put(ClassList.C.class, new ClassList.C());
+        instances.put(ClassList.F.class, new ClassList.F());
+        instances.put(ClassList.G.class, new ClassList.G());
         BeanRegistry beanRegistry = new DefaultSingletonBeanRegistry(instances);
 
         List<BeanDefinition> beanDefinitionList = new ArrayList<>();
-        beanDefinitionList.add(new BeanDefinition(ClassList.A.class));
-        beanDefinitionList.add(new BeanDefinition(ClassList.B.class));
-        beanDefinitionList.add(new BeanDefinition(ClassList.C.class));
+        beanDefinitionList.add(new BeanDefinition(ClassList.F.class));
+        beanDefinitionList.add(new BeanDefinition(ClassList.G.class));
         BeanDefinitionRegistry beanDefinitionRegistry = new BeanDefinitionRegistry();
         beanDefinitionRegistry.addAll(beanDefinitionList);
 
         mockBeanFactory = new MockBeanFactory(beanRegistry, beanDefinitionRegistry);
     }
 
-    @DisplayName("빈 필드 주입 성공 테스트")
+    @DisplayName("PostConstruct 메서드 성공 테스트")
     @Test
-    void autowired_annotation_bean_di_success_test() {
+    void post_construct_success_test() {
         //given
-        AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor = new AutowiredAnnotationBeanPostProcessor(mockBeanFactory);
+        CommonAnnotationBeanPostProcessor postProcessor = new CommonAnnotationBeanPostProcessor(mockBeanFactory);
 
         //when
-        autowiredAnnotationBeanPostProcessor.setAutowired();
+        postProcessor.postConstruct();
 
         //then
-        ClassList.A a = (ClassList.A)mockBeanFactory.getBeanRegistry().getSingleton(ClassList.A.class);
-        Assertions.assertNotNull(a.b);
-        Assertions.assertEquals(ClassList.B.class, a.b.getClass());
-        Assertions.assertNotNull(a.b.c);
+        ClassList.F f = (ClassList.F) mockBeanFactory.getBeanRegistry().getSingleton(ClassList.F.class);
+        Assertions.assertEquals(2, f.number);
+        ClassList.G g = (ClassList.G) mockBeanFactory.getBeanRegistry().getSingleton(ClassList.G.class);
+        Assertions.assertEquals(0, g.number);
+    }
+
+    @DisplayName("PreDestroy 메서드 성공 테스트")
+    @Test
+    void pre_destroy_success_test() {
+        //given
+        CommonAnnotationBeanPostProcessor postProcessor = new CommonAnnotationBeanPostProcessor(mockBeanFactory);
+
+        //when
+        postProcessor.preDestroy();
+
+        //then
+        ClassList.F f = (ClassList.F) mockBeanFactory.getBeanRegistry().getSingleton(ClassList.F.class);
+        Assertions.assertEquals(0, f.number);
+        ClassList.G g = (ClassList.G) mockBeanFactory.getBeanRegistry().getSingleton(ClassList.G.class);
+        Assertions.assertEquals(2, g.number);
     }
 
     class MockBeanFactory implements BeanFactory {

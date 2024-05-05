@@ -1,9 +1,6 @@
 package com.milktea.myspring.boot.web.ioc.classes;
 
-import com.milktea.myspring.annotations.Autowired;
-import com.milktea.myspring.annotations.Repository;
-import com.milktea.myspring.annotations.RestController;
-import com.milktea.myspring.annotations.Service;
+import com.milktea.myspring.annotations.*;
 
 public class ClassList {
     @RestController
@@ -39,9 +36,23 @@ public class ClassList {
             this.g = g;
         }
     }
-    public static class F {}
+    public static class F {
+        public int number = 0;
+        @PostConstruct
+        public void init() {
+            System.out.println("F init");
+            number = 2;
+        }
+    }
 
-    public static class G {}
+    public static class G {
+        public int number = 0;
+        @PreDestroy
+        public void destroy() {
+            System.out.println("G destroyed");
+            number = 2;
+        }
+    }
 
     public static class H {
         public I i;
