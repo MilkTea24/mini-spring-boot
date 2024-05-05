@@ -13,7 +13,10 @@ public class ClassList {
     }
 
     @Service
-    static class B {C c;}
+    static class B {
+        @Autowired
+        C c;
+    }
 
     @Repository
     static class C {}

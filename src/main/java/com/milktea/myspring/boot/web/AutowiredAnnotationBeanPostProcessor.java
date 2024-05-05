@@ -23,7 +23,8 @@ public class AutowiredAnnotationBeanPostProcessor {
                 }
             }
         } catch (Exception e) {
-            throw new RuntimeException("빈 주입 중 문제가 발생하였습니다\n" + e.getStackTrace());
+            e.printStackTrace();
+            throw new RuntimeException("빈 주입 중 문제가 발생하였습니다\n" + e.getMessage());
         }
     }
 }
