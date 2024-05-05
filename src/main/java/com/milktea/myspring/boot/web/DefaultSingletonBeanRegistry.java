@@ -7,7 +7,7 @@ import java.util.Map;
 /*
 https://okky.kr/articles/563392
  */
-public class DefaultSingletonBeanRegistry {
+public class DefaultSingletonBeanRegistry implements BeanRegistry {
     //빈 instance를 빈의 타입으로 저장한다.
     private final Map<Class<?>, Object> singletonObjects;
 

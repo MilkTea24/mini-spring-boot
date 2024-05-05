@@ -15,7 +15,7 @@ public class BeanDefinition {
 
     private List<Class<?>> constructorDependencies = new ArrayList<>();
 
-    private List<Class<?>> fieldDependencies = new ArrayList<>();
+    private List<Field> fieldDependencies = new ArrayList<>();
 
     private List<Class<?>> setterDependencies = new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class BeanDefinition {
         return autowiredConstructor;
     }
 
-    public List<Class<?>> getFieldDependencies() {
+    public List<Field> getFieldDependencies() {
         return fieldDependencies;
     }
 
@@ -61,7 +61,7 @@ public class BeanDefinition {
         for (Field field : fields) {
             if (!field.isAnnotationPresent(Autowired.class)) continue;
 
-            fieldDependencies.add(field.getClass());
+            fieldDependencies.add(field);
         }
     }
 

@@ -11,8 +11,6 @@ public class AnnotationConfigApplicationContext {
 
 
     public void refresh(String basePackage) {
-        autowiredPostProcessor = new AutowiredAnnotationBeanPostProcessor();
-
         //1. 빈 정의
         scanner = new ClassPathBeanDefinitionScanner();
         scan(basePackage);
@@ -22,7 +20,8 @@ public class AnnotationConfigApplicationContext {
         beanFactory.createBeans();
 
         //3. 의존관계 주입
-
+        autowiredPostProcessor = new AutowiredAnnotationBeanPostProcessor(beanFactory);
+        autowiredPostProcessor.setAutowired();
 
         //초기화 콜백 PostConstruct
 
