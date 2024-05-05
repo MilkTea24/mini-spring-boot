@@ -1,6 +1,4 @@
-package com.milktea.myspring.boot.web;
-
-import java.util.Map;
+package com.milktea.myspring.boot.web.ioc;
 
 public interface BeanDefinitionScanner {
     void scan(String baseString);

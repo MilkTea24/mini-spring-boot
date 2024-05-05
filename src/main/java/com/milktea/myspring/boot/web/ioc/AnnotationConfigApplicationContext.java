@@ -1,4 +1,4 @@
-package com.milktea.myspring.boot.web;
+package com.milktea.myspring.boot.web.ioc;
 
 //genericapplicationcontext
 public class AnnotationConfigApplicationContext implements ApplicationContext {

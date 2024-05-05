@@ -1,4 +1,4 @@
-package com.milktea.myspring.boot.web;
+package com.milktea.myspring.boot.web.ioc;
 
 import com.milktea.myspring.annotations.Autowired;
 import com.milktea.myspring.annotations.PostConstruct;

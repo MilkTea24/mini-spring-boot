@@ -1,7 +1,8 @@
-package com.milktea.myspring.boot.web;
+package com.milktea.myspring.boot.web.ioc;
 
-import com.milktea.myspring.boot.web.classes.X;
-import com.milktea.myspring.boot.web.classes.Z;
+import com.milktea.myspring.boot.web.ioc.classes.ClassList;
+import com.milktea.myspring.boot.web.ioc.classes.X;
+import com.milktea.myspring.boot.web.ioc.classes.Z;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.milktea.myspring.boot.web;
+package com.milktea.myspring.boot.web.ioc;
 
 public interface BeanRegistry {
     void registerSingleton(String beanName, Object singletonObject);

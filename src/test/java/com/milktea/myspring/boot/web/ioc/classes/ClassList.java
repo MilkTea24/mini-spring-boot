@@ -1,4 +1,4 @@
-package com.milktea.myspring.boot.web;
+package com.milktea.myspring.boot.web.ioc.classes;
 
 import com.milktea.myspring.annotations.Autowired;
 import com.milktea.myspring.annotations.Repository;
@@ -7,23 +7,23 @@ import com.milktea.myspring.annotations.Service;
 
 public class ClassList {
     @RestController
-    static class A {
+    public static class A {
         @Autowired
-        B b;
+        public B b;
     }
 
     @Service
-    static class B {
+    public static class B {
         @Autowired
-        C c;
+        public C c;
     }
 
     @Repository
-    static class C {}
+    public static class C {}
 
-    static class D {
-        E e;
-        F f;
+    public static class D {
+        public E e;
+        public F f;
 
         @Autowired
         public D(E e, F f) {
@@ -31,27 +31,27 @@ public class ClassList {
             this.f = f;
         }
     }
-    static class E {
-        G g;
+    public static class E {
+        public G g;
 
         @Autowired
         public E (G g) {
             this.g = g;
         }
     }
-    static class F {}
+    public static class F {}
 
-    static class G {}
+    public static class G {}
 
-    static class H {
-        I i;
+    public static class H {
+        public I i;
         @Autowired
         public H(I i) {
             this.i = i;
         }
     }
-    static class I {
-        H h;
+    public static class I {
+        public H h;
         @Autowired
         public I(H h) {
             this.h = h;

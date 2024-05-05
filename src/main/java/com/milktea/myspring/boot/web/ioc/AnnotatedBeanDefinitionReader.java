@@ -1,4 +1,4 @@
-package com.milktea.myspring.boot.web;
+package com.milktea.myspring.boot.web.ioc;
 
 public class AnnotatedBeanDefinitionReader {
     private BeanDefinitionRegistry registry;

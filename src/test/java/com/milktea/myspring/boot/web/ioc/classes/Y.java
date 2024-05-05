@@ -1,4 +1,4 @@
-package com.milktea.myspring.boot.web.classes;
+package com.milktea.myspring.boot.web.ioc.classes;
 
 import com.milktea.myspring.annotations.Service;
 
