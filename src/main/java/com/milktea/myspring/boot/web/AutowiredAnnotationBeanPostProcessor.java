@@ -10,6 +10,7 @@ public class AutowiredAnnotationBeanPostProcessor {
         this.beanFactory = beanFactory;
     }
 
+
     public void setAutowired() {
         Map<Class<?>, BeanDefinition> beanDefinitions = beanFactory.getBeanDefinitionRegistry().getBeanDefinitions();
         BeanRegistry beanRegistry = beanFactory.getBeanRegistry();
