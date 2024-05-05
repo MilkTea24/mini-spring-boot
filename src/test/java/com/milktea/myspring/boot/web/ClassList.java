@@ -1,15 +1,21 @@
 package com.milktea.myspring.boot.web;
 
 import com.milktea.myspring.annotations.Autowired;
+import com.milktea.myspring.annotations.Repository;
+import com.milktea.myspring.annotations.RestController;
+import com.milktea.myspring.annotations.Service;
 
 public class ClassList {
+    @RestController
     static class A {
         @Autowired
         B b;
     }
 
+    @Service
     static class B {C c;}
 
+    @Repository
     static class C {}
 
     static class D {
