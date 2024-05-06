@@ -11,7 +11,8 @@ public class TomcatServletWebServerFactory {
     private static final int PORT = 9090;
     
     private Tomcat tomcat;
-    
+
+    /*
     public Tomcat getWebServer(Class<?> clazz, ApplicationContext context) {
         createTomcatServer();
 
@@ -21,6 +22,7 @@ public class TomcatServletWebServerFactory {
 
         return tomcat;
     }
+
 
     private static void setServletConfigurations(Context webContext, ApplicationContext context) {
         Tomcat.addServlet(webContext, "MyServletDispatcher", new ServletDispatcher(context));
@@ -45,4 +47,5 @@ public class TomcatServletWebServerFactory {
         tomcat.setPort(PORT);
         tomcat.getConnector(); // Trigger the creation of the default connector
     }
+     */
 }

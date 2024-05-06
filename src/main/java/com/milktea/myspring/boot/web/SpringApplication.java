@@ -21,9 +21,9 @@ public class SpringApplication {
             ApplicationContext context = createApplicationContext(clazz);
 
             TomcatServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
-            Tomcat tomcat = serverFactory.getWebServer(clazz, context);
+            //Tomcat tomcat = serverFactory.getWebServer(clazz, context);
 
-            startServer(tomcat);
+            //startServer(tomcat);
 
             return context;
         }

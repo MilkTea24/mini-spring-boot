@@ -9,12 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RequestMappingHandlerMapping implements HandlerMapping {
-    private final ControllerRegistry controllerRegistry;
+public class RequestMappingHandlerMapping {
+    //private final ControllerRegistry controllerRegistry;
     private boolean pathVariableFlag = false;
     private Map<String, Object> pathVariables = new HashMap<>();
     private Class<?> controllerClass;
 
+    /*
     public RequestMappingHandlerMapping(ControllerRegistry controllerRegistry) {
         this.controllerRegistry = controllerRegistry;
     }
@@ -89,13 +90,11 @@ public class RequestMappingHandlerMapping implements HandlerMapping {
             args.add(params.get("course"));
         }
 
-        /*
         //Method의 모든 매개변수를 사용자가 입력한 이름과 비교하여 사용자가 입력한 이름이 있으면
         for (Parameter parameter : parameters) {
             String name = parameter.getName();
             args.add(params.get(name));
         }
-         */
 
         return args.toArray();
     }
@@ -138,4 +137,6 @@ public class RequestMappingHandlerMapping implements HandlerMapping {
 
         return controllerRegistry.getControllerBeans().get(controllerClass);
     }
+
+     */
 }

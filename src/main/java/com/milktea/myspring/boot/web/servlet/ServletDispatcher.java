@@ -19,10 +19,10 @@ import java.util.Map;
 
 public class ServletDispatcher extends HttpServlet {
     //웹 요청을 처리할 수 있는 핸들러(컨트롤러 메서드)를 찾는 역할
-    private final RequestMappingHandlerMapping handlerMapping;
+    private RequestMappingHandlerMapping handlerMapping;
 
     //찾은 핸들러를 실행하고 응답 생성을 지원
-    private final HandlerAdapter handlerAdapter;
+    //private HandlerAdapter handlerAdapter;
 
     @Override
 
@@ -30,11 +30,14 @@ public class ServletDispatcher extends HttpServlet {
         super.init(config);
     }
 
+    /*
     public MyServletDispatcher(MyApplicationContext context) {
         this.handlerMapping = new MyHandlerMapping(new ControllerRegistry(context));
 
         this.handlerAdapter = new MyHandlerAdapter(handlerMapping);
     }
+
+     */
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,11 +47,11 @@ public class ServletDispatcher extends HttpServlet {
 
         System.out.println("MyServletDispatcher.doPost: " + req.getRequestURI());
 
-        UserRequest userRequest = new UserRequest(requestMethod, requestURL, requestBody);
+        //UserRequest userRequest = new UserRequest(requestMethod, requestURL, requestBody);
         //System.out.printf("requestMethod : %s\n", requestMethod);
         //System.out.printf("requestUrl : %s\n", requestURL);
         //System.out.printf("requestBody : %s\n", requestBody);
-        dispatch(userRequest, resp);
+        //dispatch(userRequest, resp);
     }
 
 
@@ -59,10 +62,11 @@ public class ServletDispatcher extends HttpServlet {
 
         System.out.println("MyServletDispatcher.doGet: " + req.getRequestURI());
 
-        UserRequest userRequest = new UserRequest(requestMethod, requestURL, "");
-        dispatch(userRequest, resp);
+        //UserRequest userRequest = new UserRequest(requestMethod, requestURL, "");
+        //dispatch(userRequest, resp);
     }
 
+    /*
     private void dispatch(UserRequest userRequest, HttpServletResponse resp) {
         try {
             Method handler = handlerMapping.getHandler(userRequest.getMethod(), userRequest.getUri());
@@ -105,11 +109,10 @@ public class ServletDispatcher extends HttpServlet {
 
             MyUserResponse response = handlerAdapter.handle(userRequest, handler, args);
 
-            /* 과제7
+             과제7
             System.out.println("Response: " + response);
-             */
 
-            //과제 10
+            과제 10
             System.out.println("Response: " + response.getBody());
 
             resp.getWriter().write(response.getBody());
@@ -121,6 +124,8 @@ public class ServletDispatcher extends HttpServlet {
 
         }
     }
+    */
+
 
     private String getBody(HttpServletRequest request) throws IOException {
         String body = null;
