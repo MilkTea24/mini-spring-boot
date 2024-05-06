@@ -1,9 +1,12 @@
-package com.milktea.myspring.boot.web;
+package com.milktea.myspring.boot.web.ioc;
 
 import com.milktea.myspring.annotations.Autowired;
+import com.milktea.myspring.annotations.PostConstruct;
+import com.milktea.myspring.annotations.PreDestroy;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +18,43 @@ public class BeanDefinition {
 
     private List<Class<?>> constructorDependencies = new ArrayList<>();
 
-    private List<Class<?>> fieldDependencies = new ArrayList<>();
+    private List<Field> fieldDependencies = new ArrayList<>();
 
     private List<Class<?>> setterDependencies = new ArrayList<>();
+    
+    private Method postConstructMethod;
+
+    private Method preDestroyMethod;
+
+    public BeanDefinition(Class<?> clazz) {
+        beanType = clazz;
+
+        Field[] fields = clazz.getDeclaredFields();
+        addFieldDependencies(fields);
+
+        Constructor<?>[] constructors = clazz.getConstructors();
+        addConstructorDependencies(constructors);
+
+        Method[] methods = clazz.getDeclaredMethods();
+        addPostConstructMethod(methods);
+        addPreDestroyMethod(methods);
+    }
+
+    public Method getPostConstructMethod() {
+        return postConstructMethod;
+    }
+
+    public Method getPreDestroyMethod() {
+        return preDestroyMethod;
+    }
+
+    public boolean hasPostConstructMethod() {
+        return postConstructMethod != null;
+    }
+
+    public boolean hasPreDestroyMethod() {
+        return preDestroyMethod != null;
+    }
 
     public boolean isAutowiredPresent() {
         return !(constructorDependencies.isEmpty() && fieldDependencies.isEmpty());
@@ -31,7 +68,7 @@ public class BeanDefinition {
         return autowiredConstructor;
     }
 
-    public List<Class<?>> getFieldDependencies() {
+    public List<Field> getFieldDependencies() {
         return fieldDependencies;
     }
 
@@ -47,21 +84,32 @@ public class BeanDefinition {
         return beanType;
     }
 
-    public BeanDefinition(Class<?> clazz) {
-        beanType = clazz;
+    private void addPostConstructMethod(Method[] methods) {
+        boolean existOnlyOne = false;
+        for (Method method : methods) {
+            if (!method.isAnnotationPresent(PostConstruct.class)) continue;
 
-        Field[] fields = clazz.getDeclaredFields();
-        addFieldDependencies(fields);
-
-        Constructor<?>[] constructors = clazz.getConstructors();
-        addConstructorDependencies(constructors);
+            if (existOnlyOne) throw new RuntimeException("PostConstruct 어노테이션은 오직 하나만 있어야 합니다.");
+            existOnlyOne = true;
+            postConstructMethod = method;
+        }
     }
 
+    private void addPreDestroyMethod(Method[] methods) {
+        boolean existOnlyOne = false;
+        for (Method method : methods) {
+            if (!method.isAnnotationPresent(PreDestroy.class)) continue;
+
+            if (existOnlyOne) throw new RuntimeException("PreDestroy 어노테이션은 오직 하나만 있어야 합니다.");
+            existOnlyOne = true;
+            preDestroyMethod = method;
+        }
+    }
     private void addFieldDependencies(Field[] fields) {
         for (Field field : fields) {
             if (!field.isAnnotationPresent(Autowired.class)) continue;
 
-            fieldDependencies.add(field.getClass());
+            fieldDependencies.add(field);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.milktea.myspring.boot.web;
+package com.milktea.myspring.boot.web.ioc;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
@@ -9,12 +9,17 @@ public class SingletonBeanFactory implements BeanFactory {
 
     private final BeanDefinitionRegistry beanDefinitionRegistry;
 
-    public DefaultSingletonBeanRegistry getInstanceRegistry() {
+    public SingletonBeanFactory(BeanDefinitionScanner scanner) {
+        beanDefinitionRegistry = scanner.getBeanDefinitionRegistry();
+    }
+
+    public BeanRegistry getBeanRegistry() {
         return instanceRegistry;
     }
 
-    public SingletonBeanFactory(BeanDefinitionScanner scanner) {
-       beanDefinitionRegistry = scanner.getBeanDefinitionRegistry();
+    @Override
+    public BeanDefinitionRegistry getBeanDefinitionRegistry() {
+        return beanDefinitionRegistry;
     }
 
     public void createBeans()  {

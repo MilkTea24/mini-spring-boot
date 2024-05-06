@@ -1,6 +1,6 @@
-package com.milktea.myspring.boot.web;
+package com.milktea.myspring.boot.web.ioc;
 
-import com.milktea.myspring.annotations.Autowired;
+import com.milktea.myspring.boot.web.ioc.classes.ClassList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +32,7 @@ public class SingletonBeanFactoryTest {
         singletonBeanFactory.createBeans();
 
         //then
-        DefaultSingletonBeanRegistry instanceRegistry = singletonBeanFactory.getInstanceRegistry();
+        BeanRegistry instanceRegistry = singletonBeanFactory.getBeanRegistry();
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.A.class));
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.B.class));
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.C.class));
@@ -57,7 +57,7 @@ public class SingletonBeanFactoryTest {
         singletonBeanFactory.createBeans();
 
         //then
-        DefaultSingletonBeanRegistry instanceRegistry = singletonBeanFactory.getInstanceRegistry();
+        BeanRegistry instanceRegistry = singletonBeanFactory.getBeanRegistry();
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.D.class));
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.E.class));
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.F.class));
@@ -83,7 +83,7 @@ public class SingletonBeanFactoryTest {
         singletonBeanFactory.createBeans();
 
         //then
-        DefaultSingletonBeanRegistry instanceRegistry = singletonBeanFactory.getInstanceRegistry();
+        BeanRegistry instanceRegistry = singletonBeanFactory.getBeanRegistry();
         ClassList.D instanceD = (ClassList.D) instanceRegistry.getSingleton(ClassList.D.class);
         Assertions.assertNotNull(instanceD.e);
         Assertions.assertNotNull(instanceD.f);
