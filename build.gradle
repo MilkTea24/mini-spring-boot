@@ -28,7 +28,13 @@ test {
     useJUnitPlatform()
 }
 
-//apply plugin: 'java'
+apply plugin: 'java'
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-parameters"
+    }
+}
 
 /*
 compileJava {

@@ -43,6 +43,7 @@ public class SimplePathPatternParser {
 
     //match로 pattern에 해당하는 uri인지 찾을 수 있음
     public boolean match(String requestPath) {
+        if (requestPath.startsWith("/")) requestPath = requestPath.replaceFirst("/", "");
         String[] pathSegments = requestPath.split("/");
 
         if (pathSegments.length != patternSegments.size()) return false;
@@ -60,8 +61,9 @@ public class SimplePathPatternParser {
         return true;
     }
 
-    public Map<String, Object> getPathVariables(Method method, String path) {
-        String[] pathSegments = path.split("/");
+    public Map<String, Object> getPathVariables(Method method, String requestPath) {
+        if (requestPath.startsWith("/")) requestPath = requestPath.replaceFirst("/", "");
+        String[] pathSegments = requestPath.split("/");
 
         Map<String, Object> uriVariables = new HashMap<>();
         Parameter[] parameters = method.getParameters();
@@ -100,8 +102,8 @@ public class SimplePathPatternParser {
 
     private Object castToParameterType(Class<?> type, String variable) {
         if (type.getName().equals("java.lang.String")) return variable;
-        else if (type.getName().equals("java.lang.Long")) return Long.parseLong(variable);
-        else if (type.getName().equals("java.lang.Integer")) return Integer.parseInt(variable);
+        else if (type.getName().equals("java.lang.Long") || type.getName().equals("long")) return Long.parseLong(variable);
+        else if (type.getName().equals("java.lang.Integer") || type.getName().equals("int")) return Integer.parseInt(variable);
         else return variable;
     }
 
