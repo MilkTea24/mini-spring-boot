@@ -66,38 +66,36 @@ public class SimplePathPatternParser {
         Map<String, Object> uriVariables = new HashMap<>();
         Parameter[] parameters = method.getParameters();
 
+        mappingPathVariableAndParameter(parameters, uriVariables, pathSegments);
+
+        return uriVariables;
+    }
+
+    private void mappingPathVariableAndParameter(Parameter[] parameters, Map<String, Object> uriVariables, String[] pathSegments) {
         for (Map.Entry<String, Integer> entry : pathVariables.entrySet()) {
             String pathVariableName = entry.getKey().substring(1, entry.getKey().length() - 1);
 
             boolean hasProperParameter = false;
+
+            //해당 pathVariable에 매핑되는 파라미터 찾기
             for (Parameter parameter : parameters) {
                 if (!parameter.isAnnotationPresent(PathVariable.class)) continue;
                 PathVariable pathVariable = parameter.getAnnotation(PathVariable.class);
                 String value = pathVariable.value();
                 //PathVariable에서 value 값이 없으면 파라미터 이름과 비교
-                if (value.isEmpty() && pathVariableName.equals(parameter.getName()))
+                if (value.isBlank() && pathVariableName.equals(parameter.getName())) {
                     uriVariables.put(pathVariableName, castToParameterType(parameter.getType(), pathSegments[entry.getValue()]));
+                    hasProperParameter = true;
+                }
+                //PathVariable에서 value 값이 있으면 value 값과 비교
+                else if (pathVariableName.equals(value)) {
+                    uriVariables.put(pathVariableName, castToParameterType(parameter.getType(), pathSegments[entry.getValue()]));
+                    hasProperParameter = true;
+                }
             }
+
+            if (!hasProperParameter) throw new RuntimeException(pathVariableName + " : pathVariable의 적절한 파라미터 매핑을 찾지 못했습니다.");
         }
-
-
-        for (int i = 0; i < pathSegments.length; i++) {
-            String patternSegment = patternSegments.get(i);
-
-            //pathVariable 형태를 가진 것만 확인({id})
-            if (!(patternSegment.startsWith("{") && patternSegment.endsWith("}"))) continue;
-
-            String variable = patternSegment.substring(1, patternSegment.length() - 1);
-            //pathVariable이 메서드에서 어떤 타입인지 찾기
-            for (Parameter parameter : parameters) {
-                if (!parameter.isAnnotationPresent(PathVariable.class)) continue;
-                if (!parameter.getName().equals(variable)) continue;
-
-                uriVariables.put(variable, castToParameterType(parameter.getType(), pathSegments[i]));
-            }
-        }
-
-        return uriVariables;
     }
 
     private Object castToParameterType(Class<?> type, String variable) {

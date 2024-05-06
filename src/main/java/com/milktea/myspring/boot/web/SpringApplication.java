@@ -42,9 +42,7 @@ public class SpringApplication {
 
                     displayBanner();
                 } catch (Exception e) {
-
                     e.printStackTrace();
-
                 }
 
             };
