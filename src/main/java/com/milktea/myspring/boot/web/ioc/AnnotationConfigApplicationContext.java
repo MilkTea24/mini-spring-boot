@@ -21,7 +21,7 @@ public class AnnotationConfigApplicationContext implements ApplicationContext {
     public void refresh(String basePackage) {
         //1. 빈 정의
         scanner = new ClassPathBeanDefinitionScanner();
-        scan(basePackage);
+        scanner.scan(basePackage);
 
         //2. 빈 생성
         beanFactory = new SingletonBeanFactory(scanner);
@@ -48,17 +48,13 @@ public class AnnotationConfigApplicationContext implements ApplicationContext {
         commonPostProcessor = null;
     }
 
-    public void scan(String basePackage) {
-        this.scanner.scan(basePackage);
-    }
-
+    @Override
     public Map<Class<?>, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationClass) {
         return beanRegistry.getSingletonsWithAnnotation(annotationClass);
     }
 
+    @Override
     public Object getBean(Class<?> clazz) {
         return beanRegistry.getSingleton(clazz);
     }
-
-
 }

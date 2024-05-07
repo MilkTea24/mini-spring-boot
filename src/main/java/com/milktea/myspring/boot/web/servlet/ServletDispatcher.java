@@ -1,5 +1,6 @@
 package com.milktea.myspring.boot.web.servlet;
 
+import com.milktea.myspring.boot.web.utils.MyJsonParser;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 public class ServletDispatcher extends HttpServlet {
     //웹 요청을 처리할 수 있는 핸들러(컨트롤러 메서드)를 찾는 역할
-    private RequestMappingHandlerMapping handlerMapping;
+    private HandlerMapping handlerMapping;
 
     //찾은 핸들러를 실행하고 응답 생성을 지원
     //private HandlerAdapter handlerAdapter;
@@ -66,39 +67,35 @@ public class ServletDispatcher extends HttpServlet {
         //dispatch(userRequest, resp);
     }
 
-    /*
-    private void dispatch(UserRequest userRequest, HttpServletResponse resp) {
-        try {
-            Method handler = handlerMapping.getHandler(userRequest.getMethod(), userRequest.getUri());
 
-            if (handler == null) {
+    private void doDispatch(HttpServletRequest request, HttpServletResponse resp) {
+        //1. 핸들러 조회
+        Method handler = handlerMapping.getHandler(request);
 
-                System.out.println("ERROR: No mapping found for " + userRequest.getMethod() + " " + userRequest.getUri());
+        //2. 핸들러 어댑터 조회(현재는 핸들러 어댑터 전략이 하나밖에 없으므로 바로 반환)
+        HandlerAdapter adapter = new RequestMappingHandlerAdapter();
 
-                return;
+        //3. 핸들러 어댑터의 핸들러 호출
 
-            }
+        //4. 핸들러 어댑터가 반환한 값 반환
+
+
 
             Map<String, Object> params = new HashMap<>();
 
-            // Handle JSON body for POST and PUT requests
+            //POST나 PUT인 경우 jsonBody를 받는다.
+            if (request.getMethod().equals("POST") || request.getMethod().equals("PUT")) {
 
-            if (userRequest.getMethod().equals("POST") || userRequest.getMethod().equals("PUT")) {
-
-                String jsonBody = userRequest.getJsonBody();
-
-                if (jsonBody != null && !jsonBody.isEmpty()) {
+                String jsonBody = getBody(request);
+                if (jsonBody != null && !jsonBody.isBlank()) {
                     MyJsonParser jsonParser = new MyJsonParser(jsonBody);
 
                     params.putAll((HashMap<String, Object>)jsonParser.parseJsonString()); // MyJsonParser is a hypothetical parser you'd need to implement
                 }
-
             }
 
-            // Extract path variables from the request URI (쉬운 방법으로, 예를 들어, 메서드 파라미터명을 미리 등록해 놓음, 구현하셔도 됩니다!)
-
-            Map<String, Object> pathVariables = handlerMapping.extractPathVariables(userRequest);
-
+            // PathVariables의 값을 핸들러 파라미터에 넣음
+            Map<String, Object> pathVariables = handlerMapping.extractPathVariables(request);
             params.putAll(pathVariables);
 
             // Extract args based on the extracted path variables and method signature
@@ -109,25 +106,17 @@ public class ServletDispatcher extends HttpServlet {
 
             MyUserResponse response = handlerAdapter.handle(userRequest, handler, args);
 
-             과제7
+            //과제7
             System.out.println("Response: " + response);
 
-            과제 10
+            //과제 10
             System.out.println("Response: " + response.getBody());
 
             resp.getWriter().write(response.getBody());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            System.out.println("ERROR: " + e.getMessage());
-
-        }
     }
-    */
 
 
-    private String getBody(HttpServletRequest request) throws IOException {
+    private String getBody(HttpServletRequest request) {
         String body = null;
         StringBuilder stringBuilder = new StringBuilder();
 

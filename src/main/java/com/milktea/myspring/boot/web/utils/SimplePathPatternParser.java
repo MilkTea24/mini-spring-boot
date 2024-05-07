@@ -15,16 +15,10 @@ public class SimplePathPatternParser {
     //슬래시로 분리
     private static final Pattern SEGMENT_PATTERN = Pattern.compile("/([^/]+)");
 
-
-    //어노테이션에 있는 패턴
-    private final String controllerMappingPattern;
-
     private final List<String> patternSegments = new ArrayList<>();
     private final Map<String, Integer> pathVariables = new HashMap<>();
 
     public SimplePathPatternParser(String pattern) {
-        this.controllerMappingPattern = pattern;
-
         Matcher matcher = SEGMENT_PATTERN.matcher(pattern);
 
         while (matcher.find()) {
