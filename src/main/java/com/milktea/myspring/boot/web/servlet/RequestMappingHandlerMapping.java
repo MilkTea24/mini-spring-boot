@@ -1,18 +1,13 @@
 package com.milktea.myspring.boot.web.servlet;
 
-import com.milktea.myspring.annotations.Component;
 import com.milktea.myspring.annotations.GetMapping;
 import com.milktea.myspring.annotations.PostMapping;
 import com.milktea.myspring.boot.web.utils.SimplePathPatternParser;
 import com.milktea.myspring.annotations.RequestMapping;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RequestMappingHandlerMapping implements HandlerMapping {
@@ -44,48 +39,44 @@ public class RequestMappingHandlerMapping implements HandlerMapping {
     }
 
     private Method processMappingAnnotation(HttpServletRequest request, Method[] methods) {
-        for (Method m : methods) {
-            if (m.isAnnotationPresent(RequestMapping.class)) {
-                if (processRequestMapping(m, request)) return m;
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(RequestMapping.class)) {
+                if (processRequestMapping(method, request)) return method;
             }
-            else if (m.isAnnotationPresent(PostMapping.class)) {
-                if (processPostMapping(m, request)) return m;
+            else if (method.isAnnotationPresent(PostMapping.class)) {
+                if (processPostMapping(method, request)) return method;
             }
-            else if (m.isAnnotationPresent(GetMapping.class)) {
-                if (processGetMapping(m, request)) return m;
+            else if (method.isAnnotationPresent(GetMapping.class)) {
+                if (processGetMapping(method, request)) return method;
             }
         }
+        return null;
     }
 
     private boolean processRequestMapping(Method m, HttpServletRequest request) {
         RequestMapping requestMapping = m.getAnnotation(RequestMapping.class);
 
-        return getPathVariables(m, request, requestMapping.method(), requestMapping.value());
+        return match(request, requestMapping.method(), requestMapping.value());
     }
 
     private boolean processPostMapping(Method m, HttpServletRequest request) {
         PostMapping postMapping = m.getAnnotation(PostMapping.class);
 
-        return getPathVariables(m, request, "POST", postMapping.value());
+        return match(request, "POST", postMapping.value());
     }
 
     private boolean processGetMapping(Method m, HttpServletRequest request) {
         GetMapping getMapping = m.getAnnotation(GetMapping.class);
 
-        return getPathVariables(m, request, "GET", getMapping.value());
+        return match(request, "GET", getMapping.value());
     }
 
-    private boolean getPathVariables(Method m, HttpServletRequest request, String mappingMethod, String mappingPath) {
+    private boolean match(HttpServletRequest request, String mappingMethod, String mappingPath) {
         if (!mappingMethod.equals(request.getMethod().toUpperCase())) return false;
 
         SimplePathPatternParser pathPatternParser = new SimplePathPatternParser(mappingPath);
 
-        if (pathPatternParser.match(request.getRequestURI())) {
-            pathVariables = pathPatternParser.getPathVariables(m, request.getRequestURI());
-            pathVariableFlag = true;
-            return true;
-        }
-        else return false;
+        return pathPatternParser.match(request.getRequestURI());
     }
 
 }
