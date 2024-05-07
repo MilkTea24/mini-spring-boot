@@ -27,11 +27,11 @@ public class DefaultConversionService implements ConversionService {
     }
 
     @Override
-    public Object convert(Object source, Class<?> targetType) {
+    public <T> T convert(Object source, Class<?> targetType) {
         for (Converter<?, ?> converter : converters) {
             if (converter.matches(source.getClass(), targetType)) {
                 Converter<Object, Object> objectConverter = (Converter<Object, Object>) converter;
-                return objectConverter.convert(source);
+                return (T)objectConverter.convert(source);
             }
         }
         return null;

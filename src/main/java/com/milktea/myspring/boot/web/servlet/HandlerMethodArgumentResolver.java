@@ -7,5 +7,5 @@ import java.lang.reflect.Parameter;
 public interface HandlerMethodArgumentResolver {
     boolean supportsParameter(Parameter parameter);
 
-    Object resolveArgument(Parameter parameter, HttpServletRequest request, WebDataBinderFactory binderFactory);
+    Object resolveArgument(Parameter parameter, HttpServletRequest request);
 }
