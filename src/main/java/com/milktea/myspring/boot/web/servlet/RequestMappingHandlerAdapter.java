@@ -1,5 +1,6 @@
 package com.milktea.myspring.boot.web.servlet;
 
+import com.milktea.myspring.boot.web.ioc.ApplicationContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -9,7 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 public class RequestMappingHandlerAdapter implements HandlerAdapter {
-    List<HandlerMethodArgumentResolver> resolvers = new ArrayList<>();
+    private final ApplicationContext context;
+
+    private List<HandlerMethodArgumentResolver> resolvers = new ArrayList<>();
+
+    public RequestMappingHandlerAdapter(ApplicationContext context) {
+        this.context = context;
+    }
 
     private void getDefaultArgumentResolvers() {
         resolvers = new ArrayList<>();

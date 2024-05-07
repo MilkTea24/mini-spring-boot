@@ -77,7 +77,7 @@ public class RequestMappingHandlerMapping implements HandlerMapping {
 
         SimplePathPatternParser pathPatternParser = new SimplePathPatternParser(mappingPath);
 
-        return pathPatternParser.match(request.getRequestURI());
+        return SimplePathPatternParser.match(mappingPath, request.getRequestURI());
     }
 
 }

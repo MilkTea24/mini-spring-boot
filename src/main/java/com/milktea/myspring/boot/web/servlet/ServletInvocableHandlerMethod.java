@@ -1,5 +1,7 @@
 package com.milktea.myspring.boot.web.servlet;
 
+import com.milktea.myspring.boot.web.ioc.ApplicationContext;
+import com.milktea.myspring.boot.web.ioc.SingletonBeanFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -10,6 +12,8 @@ import java.util.List;
 public class ServletInvocableHandlerMethod {
     Method handler;
 
+    ApplicationContext context;
+
     List<HandlerMethodArgumentResolver> resolvers;
     public ServletInvocableHandlerMethod(Method handler, List<HandlerMethodArgumentResolver> resolvers) {
         this.handler = handler;
@@ -17,12 +21,16 @@ public class ServletInvocableHandlerMethod {
     }
 
     public void invokeAndHandle(HttpServletRequest request, HttpServletResponse response) {
-        String returnValue = invokeForRequest(request);
+        Object returnValue = invokeForRequest(request);
 
-        handleForResponse(response);
+        //handleForResponse(response);
     }
 
-    private String invokeForRequest(HttpServletRequest request) {
+    public void setContext(ApplicationContext context) {
+        this.context = context;
+    }
+
+    private Object invokeForRequest(HttpServletRequest request) {
         Object[] args = getMethodArgumentValues(request);
 
         return doInvoke(args);
@@ -36,8 +44,22 @@ public class ServletInvocableHandlerMethod {
             for (HandlerMethodArgumentResolver resolver : resolvers) {
                 if (!resolver.supportsParameter(parameters[i])) continue;
 
-                results[i] = resolver.resolveArgument(parameters[i], request, binderFactory);
+                results[i] = resolver.resolveArgument(parameters[i], request);
             }
         }
+        return results;
+    }
+
+    private Object doInvoke(Object[] args) {
+        try {
+            return handler.invoke(getControllerInstance(handler), args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private Object getControllerInstance(Method handler) {
+        return context.getBean(handler.getDeclaringClass());
     }
 }

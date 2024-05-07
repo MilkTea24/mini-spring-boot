@@ -16,36 +16,14 @@ public class SimplePathPatternParser {
     //슬래시로 분리
     private static final Pattern SEGMENT_PATTERN = Pattern.compile("/([^/]+)");
 
-    private final List<String> patternSegments = new ArrayList<>();
-    private final Map<String, Integer> pathVariables = new HashMap<>();
-
     public SimplePathPatternParser(String pattern) {
-        Matcher matcher = SEGMENT_PATTERN.matcher(pattern);
 
-        while (matcher.find()) {
-            patternSegments.add(matcher.group(1));
-        }
-
-        for (int i = 0; i < patternSegments.size(); i++) {
-            String segment = patternSegments.get(i);
-            if (segment.startsWith("{") && segment.endsWith("}")) {
-                if (pathVariables.containsKey(segment)) throw new RuntimeException("동일한 pathVariable 이름이 두 개 이상 올 수 없습니다.");
-
-                pathVariables.put(segment, i);
-            }
-        }
     }
 
     //match로 pattern에 해당하는 uri인지 찾을 수 있음
-    public boolean match(String requestUri) {
-        String requestPath = null;
-        try {
-            URI uri = new URI(requestUri);
-            requestPath = uri.getPath();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    public static boolean match(String pattern, String requestUri) {
+        String requestPath = getRequestPath(requestUri);
+        List<String> patternSegments = getPatternSegments(pattern);
 
         if (requestPath.startsWith("/")) requestPath = requestPath.replaceFirst("/", "");
         String[] pathSegments = requestPath.split("/");
@@ -65,53 +43,47 @@ public class SimplePathPatternParser {
         return true;
     }
 
-    public Map<String, Object> getPathVariables(Method method, String requestPath) {
+    public static Object getPathVariable(Parameter parameter, String pattern, String requestUri) {
+        String requestPath = getRequestPath(requestUri);
+        List<String> patternSegments = getPatternSegments(pattern);
+
         if (requestPath.startsWith("/")) requestPath = requestPath.replaceFirst("/", "");
         String[] pathSegments = requestPath.split("/");
 
-        Map<String, Object> uriVariables = new HashMap<>();
-        Parameter[] parameters = method.getParameters();
+        if (parameter.isAnnotationPresent(PathVariable.class)) return null;
+        PathVariable pathVariable = parameter.getAnnotation(PathVariable.class);
 
-        mappingPathVariableAndParameter(parameters, uriVariables, pathSegments);
+        String parameterMappingName = pathVariable.value().isBlank() ? parameter.getName() : pathVariable.value();
 
-        return uriVariables;
+        for (int i = 0; i < patternSegments.size(); i++) {
+            String segment = patternSegments.get(i);
+            if (!(segment.startsWith("{") && segment.endsWith("}"))) continue;
+            String pathVariableName = segment.substring(1, segment.length() - 1);
+
+            if (pathVariableName.equals(parameterMappingName)) return pathSegments[i];
+        }
+
+        throw new RuntimeException("해당하는 PathVariable을 찾을 수 없습니다: " + parameterMappingName);
     }
 
-    private void mappingPathVariableAndParameter(Parameter[] parameters, Map<String, Object> uriVariables, String[] pathSegments) {
-        for (Map.Entry<String, Integer> entry : pathVariables.entrySet()) {
-            String pathVariableName = entry.getKey().substring(1, entry.getKey().length() - 1);
-
-            boolean hasProperParameter = false;
-
-            //해당 pathVariable에 매핑되는 파라미터 찾기
-            for (Parameter parameter : parameters) {
-                if (!parameter.isAnnotationPresent(PathVariable.class)) continue;
-                PathVariable pathVariable = parameter.getAnnotation(PathVariable.class);
-                String value = pathVariable.value();
-                //PathVariable에서 value 값이 없으면 파라미터 이름과 비교
-                if (value.isBlank() && pathVariableName.equals(parameter.getName())) {
-                    uriVariables.put(pathVariableName, castToParameterType(parameter.getType(), pathSegments[entry.getValue()]));
-                    hasProperParameter = true;
-                }
-                //PathVariable에서 value 값이 있으면 value 값과 비교
-                else if (pathVariableName.equals(value)) {
-                    uriVariables.put(pathVariableName, castToParameterType(parameter.getType(), pathSegments[entry.getValue()]));
-                    hasProperParameter = true;
-                }
-            }
-
-            if (!hasProperParameter) throw new RuntimeException(pathVariableName + " : pathVariable의 적절한 파라미터 매핑을 찾지 못했습니다.");
+    private static String getRequestPath(String requestUri) {
+        try {
+            URI uri = new URI(requestUri);
+            return uri.getPath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
-    private Object castToParameterType(Class<?> type, String variable) {
-        if (type.getName().equals("java.lang.String")) return variable;
-        else if (type.getName().equals("java.lang.Long") || type.getName().equals("long")) return Long.parseLong(variable);
-        else if (type.getName().equals("java.lang.Integer") || type.getName().equals("int")) return Integer.parseInt(variable);
-        else return variable;
+    private static List<String> getPatternSegments(String pattern) {
+        List<String> patternSegments = new ArrayList<>();
+        Matcher matcher = SEGMENT_PATTERN.matcher(pattern);
+
+        while (matcher.find()) {
+            patternSegments.add(matcher.group(1));
+        }
+
+        return patternSegments;
     }
-
-
-    //uriVariables에 pathVariable의 값들이 저장되어 있음
-    //Key는 PathVariable의 이름, Value는 PathVariable의
 }

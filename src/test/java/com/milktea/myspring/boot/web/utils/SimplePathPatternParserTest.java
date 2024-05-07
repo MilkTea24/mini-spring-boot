@@ -11,12 +11,6 @@ import java.util.Map;
 public class SimplePathPatternParserTest {
     private static final String pattern = "/user/{userId}/order/{orderId}";
 
-    private SimplePathPatternParser parser;
-
-    @BeforeEach
-    void setup() {
-        parser = new SimplePathPatternParser(pattern);
-    }
 
     @DisplayName("PathVariable 매칭 성공 테스트")
     @Test
@@ -26,7 +20,7 @@ public class SimplePathPatternParserTest {
         String requestPath = "/user/1/order/2";
 
         //when
-        boolean matchResult = parser.match(requestPath);
+        boolean matchResult = SimplePathPatternParser.match(pattern, requestPath);
 
         //then
         Assertions.assertTrue(matchResult);
@@ -40,7 +34,7 @@ public class SimplePathPatternParserTest {
         String requestPath = "/user/1/order/2?details=true";
 
         //when
-        boolean matchResult = parser.match(requestPath);
+        boolean matchResult = SimplePathPatternParser.match(pattern, requestPath);
 
         //then
         Assertions.assertTrue(matchResult);
@@ -54,7 +48,7 @@ public class SimplePathPatternParserTest {
         String requestPath = "/user/1/invalid/2";
 
         //when
-        boolean matchResult = parser.match(requestPath);
+        boolean matchResult = SimplePathPatternParser.match(pattern, requestPath);
 
         //then
         Assertions.assertFalse(matchResult);
@@ -68,11 +62,10 @@ public class SimplePathPatternParserTest {
         String requestPath = "/user/1/order/2";
 
         //when
-        Map<String, Object> result = parser.getPathVariables(method, requestPath);
+        Object result = SimplePathPatternParser.getPathVariable(method.getParameters()[0], pattern, requestPath);
 
         //then
-        Assertions.assertEquals(1, result.get("userId"));
-        Assertions.assertEquals(2L, result.get("orderId"));
+        Assertions.assertEquals(1, result);
     }
 
     @DisplayName("PathVariable 어노테이션의 value가 있을 때 파라미터 매핑 성공 테스트")
@@ -83,11 +76,10 @@ public class SimplePathPatternParserTest {
         String requestPath = "/user/1/order/2";
 
         //when
-        Map<String, Object> result = parser.getPathVariables(method, requestPath);
+        Object result = SimplePathPatternParser.getPathVariable(method.getParameters()[0], pattern, requestPath);
 
         //then
-        Assertions.assertEquals(1, result.get("userId"));
-        Assertions.assertEquals(2L, result.get("orderId"));
+        Assertions.assertEquals(1, result);
     }
 
     @DisplayName("PathVariable과 매핑되는 적절한 파라미터를 찾을 수 없을 때 파라미터 매핑 실패 테스트")
@@ -98,7 +90,7 @@ public class SimplePathPatternParserTest {
         String requestPath = "/user/1/order/2";
 
         //when, then
-        Assertions.assertThrows(RuntimeException.class, () -> parser.getPathVariables(method, requestPath));
+        Assertions.assertThrows(RuntimeException.class, () -> SimplePathPatternParser.getPathVariable(method.getParameters()[0], pattern, requestPath));
     }
 
     @DisplayName("잘못된 requestPath일 경우 파라미터 매핑 실패 테스트")
@@ -109,6 +101,6 @@ public class SimplePathPatternParserTest {
         String requestPath = "/user/1/order";
 
         //when, then
-        Assertions.assertThrows(RuntimeException.class, () -> parser.getPathVariables(method, requestPath));
+        Assertions.assertThrows(RuntimeException.class, () -> SimplePathPatternParser.getPathVariable(method.getParameters()[1], pattern, requestPath));
     }
 }
