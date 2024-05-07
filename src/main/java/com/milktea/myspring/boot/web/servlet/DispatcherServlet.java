@@ -41,7 +41,6 @@ public class DispatcherServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String requestMethod = "POST";
         String requestURL = req.getRequestURI();
-        String requestBody = getBody(req);
 
         System.out.println("MyServletDispatcher.doPost: " + req.getRequestURI());
 
@@ -80,27 +79,7 @@ public class DispatcherServlet extends HttpServlet {
     }
 
 
-    private String getBody(HttpServletRequest request) {
-        String body = null;
-        StringBuilder stringBuilder = new StringBuilder();
 
-        try (InputStream inputStream = request.getInputStream();
-             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))){
-            if (inputStream != null) {
-                char[] charBuffer = new char[128];
-                int bytesRead = -1;
-                while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
-                    stringBuilder.append(charBuffer, 0, bytesRead);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        body = stringBuilder.toString();
-
-        return body;
-    }
 
     public void startListening() {
 
