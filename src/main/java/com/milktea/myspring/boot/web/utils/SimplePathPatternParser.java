@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SimplePathPatternParser {
-    //중괄호 내부에 슬래시가 포함되지 않는 문자를 찾음 /student/{id}에서 id를 반환
+    //슬래시로 분리
     private static final Pattern SEGMENT_PATTERN = Pattern.compile("/([^/]+)");
 
 
