@@ -1,11 +1,16 @@
 package com.milktea.myspring.boot.web.ioc;
 
+import java.lang.annotation.Annotation;
+import java.util.Map;
+
 //genericapplicationcontext
 public class AnnotationConfigApplicationContext implements ApplicationContext {
     //빈들을 스캔하여 등록
     private BeanDefinitionScanner scanner;
 
     private BeanFactory beanFactory;
+
+    private SingletonBeanRegistry beanRegistry;
 
     private AutowiredAnnotationBeanPostProcessor autowiredPostProcessor;
 
@@ -21,6 +26,7 @@ public class AnnotationConfigApplicationContext implements ApplicationContext {
         //2. 빈 생성
         beanFactory = new SingletonBeanFactory(scanner);
         beanFactory.createBeans();
+        beanRegistry = beanFactory.getBeanRegistry();
 
         //3. 의존관계 주입
         autowiredPostProcessor = new AutowiredAnnotationBeanPostProcessor(beanFactory);
@@ -44,6 +50,14 @@ public class AnnotationConfigApplicationContext implements ApplicationContext {
 
     public void scan(String basePackage) {
         this.scanner.scan(basePackage);
+    }
+
+    public Map<Class<?>, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationClass) {
+        return beanRegistry.getSingletonsWithAnnotation(annotationClass);
+    }
+
+    public Object getBean(Class<?> clazz) {
+        return beanRegistry.getSingleton(clazz);
     }
 
 

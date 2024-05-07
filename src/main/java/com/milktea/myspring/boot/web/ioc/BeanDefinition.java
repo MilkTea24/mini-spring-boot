@@ -3,6 +3,7 @@ package com.milktea.myspring.boot.web.ioc;
 import com.milktea.myspring.annotations.Autowired;
 import com.milktea.myspring.annotations.PostConstruct;
 import com.milktea.myspring.annotations.PreDestroy;
+import com.milktea.myspring.annotations.RestController;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BeanDefinition {
-    private Class<?> beanType;
+    private final Class<?> beanType;
 
     private Constructor<?> autowiredConstructor;
 
@@ -29,12 +30,15 @@ public class BeanDefinition {
     public BeanDefinition(Class<?> clazz) {
         beanType = clazz;
 
+        //필드 Autowired 추가
         Field[] fields = clazz.getDeclaredFields();
         addFieldDependencies(fields);
 
+        //생성자 Autowired 추가
         Constructor<?>[] constructors = clazz.getConstructors();
         addConstructorDependencies(constructors);
 
+        //PostConstruct, PreDistroy 추가
         Method[] methods = clazz.getDeclaredMethods();
         addPostConstructMethod(methods);
         addPreDestroyMethod(methods);

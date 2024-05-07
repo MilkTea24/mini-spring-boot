@@ -13,7 +13,7 @@ public class AutowiredAnnotationBeanPostProcessor {
 
     public void setAutowired() {
         Map<Class<?>, BeanDefinition> beanDefinitions = beanFactory.getBeanDefinitionRegistry().getBeanDefinitions();
-        BeanRegistry beanRegistry = beanFactory.getBeanRegistry();
+        SingletonBeanRegistry beanRegistry = beanFactory.getBeanRegistry();
 
         try {
             for (BeanDefinition bd : beanDefinitions.values()) {
