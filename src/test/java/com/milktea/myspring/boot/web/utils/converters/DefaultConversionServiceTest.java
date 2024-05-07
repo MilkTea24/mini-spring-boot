@@ -27,7 +27,7 @@ public class DefaultConversionServiceTest {
         String source = "2";
 
         //when
-        Object result = conversionService.convert(source, Integer.class);
+        Object result = conversionService.convert(source, Long.class);
 
         //then
         Assertions.assertTrue(result instanceof Long);

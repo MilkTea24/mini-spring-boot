@@ -50,7 +50,7 @@ public class SimplePathPatternParser {
         if (requestPath.startsWith("/")) requestPath = requestPath.replaceFirst("/", "");
         String[] pathSegments = requestPath.split("/");
 
-        if (parameter.isAnnotationPresent(PathVariable.class)) return null;
+        if (!parameter.isAnnotationPresent(PathVariable.class)) return null;
         PathVariable pathVariable = parameter.getAnnotation(PathVariable.class);
 
         String parameterMappingName = pathVariable.value().isBlank() ? parameter.getName() : pathVariable.value();

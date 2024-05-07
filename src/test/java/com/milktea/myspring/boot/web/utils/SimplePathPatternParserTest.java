@@ -65,7 +65,7 @@ public class SimplePathPatternParserTest {
         Object result = SimplePathPatternParser.getPathVariable(method.getParameters()[0], pattern, requestPath);
 
         //then
-        Assertions.assertEquals(1, result);
+        Assertions.assertEquals("1", result);
     }
 
     @DisplayName("PathVariable 어노테이션의 value가 있을 때 파라미터 매핑 성공 테스트")
@@ -79,7 +79,7 @@ public class SimplePathPatternParserTest {
         Object result = SimplePathPatternParser.getPathVariable(method.getParameters()[0], pattern, requestPath);
 
         //then
-        Assertions.assertEquals(1, result);
+        Assertions.assertEquals("1", result);
     }
 
     @DisplayName("PathVariable과 매핑되는 적절한 파라미터를 찾을 수 없을 때 파라미터 매핑 실패 테스트")
