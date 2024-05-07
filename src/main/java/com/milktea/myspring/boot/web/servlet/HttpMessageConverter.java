@@ -18,7 +18,7 @@ public interface HttpMessageConverter<T> {
                 getSupportedMediaTypes() : Collections.emptyList());
     }
 
-    T read(Class<? extends T> clazz, HttpInputMessage inputMessage) throws IOException/*, HttpMessageNotReadableException*/;
+    T read(Class<? extends T> clazz, String inputMessage) throws IOException/*, HttpMessageNotReadableException*/;
 
-    void write(T t, MediaType contentType, HttpOutputMessage outputMessage) throws IOException/*, HttpMessageNotWritableException*/;
+    void write(T t, MediaType contentType, String outputMessage) throws IOException/*, HttpMessageNotWritableException*/;
 }

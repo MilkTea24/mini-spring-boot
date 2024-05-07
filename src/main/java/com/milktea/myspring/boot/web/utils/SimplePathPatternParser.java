@@ -4,6 +4,7 @@ import com.milktea.myspring.annotations.PathVariable;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +37,16 @@ public class SimplePathPatternParser {
     }
 
     //match로 pattern에 해당하는 uri인지 찾을 수 있음
-    public boolean match(String requestPath) {
+    public boolean match(String requestUri) {
+        String requestPath = null;
+        try {
+            URI uri = new URI(requestUri);
+            requestPath = uri.getPath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
         if (requestPath.startsWith("/")) requestPath = requestPath.replaceFirst("/", "");
         String[] pathSegments = requestPath.split("/");
 

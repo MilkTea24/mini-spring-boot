@@ -32,6 +32,20 @@ public class SimplePathPatternParserTest {
         Assertions.assertTrue(matchResult);
     }
 
+    @DisplayName("PathVariable Query String 있을 때 매칭 성공 테스트")
+    @Test
+    void simple_path_pattern_parser_query_string_matching_success_test() throws Exception {
+        //given
+        Method method = TestController.class.getMethod("successMethod", int.class, long.class);
+        String requestPath = "/user/1/order/2?details=true";
+
+        //when
+        boolean matchResult = parser.match(requestPath);
+
+        //then
+        Assertions.assertTrue(matchResult);
+    }
+
     @DisplayName("PathVariable 매칭 실패 테스트")
     @Test
     void simple_path_pattern_parser_matching_fail_test() throws Exception {

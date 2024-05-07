@@ -67,8 +67,8 @@ public class ServletDispatcher extends HttpServlet {
         //dispatch(userRequest, resp);
     }
 
-
-    private void doDispatch(HttpServletRequest request, HttpServletResponse resp) {
+    //doService 내부에 포함
+    private void doDispatch(HttpServletRequest request, HttpServletResponse response) {
         //1. 핸들러 조회
         Method handler = handlerMapping.getHandler(request);
 
@@ -76,43 +76,10 @@ public class ServletDispatcher extends HttpServlet {
         HandlerAdapter adapter = new RequestMappingHandlerAdapter();
 
         //3. 핸들러 어댑터의 핸들러 호출
+        adapter.handle(request, response, handler);
 
         //4. 핸들러 어댑터가 반환한 값 반환
 
-
-
-            Map<String, Object> params = new HashMap<>();
-
-            //POST나 PUT인 경우 jsonBody를 받는다.
-            if (request.getMethod().equals("POST") || request.getMethod().equals("PUT")) {
-
-                String jsonBody = getBody(request);
-                if (jsonBody != null && !jsonBody.isBlank()) {
-                    MyJsonParser jsonParser = new MyJsonParser(jsonBody);
-
-                    params.putAll((HashMap<String, Object>)jsonParser.parseJsonString()); // MyJsonParser is a hypothetical parser you'd need to implement
-                }
-            }
-
-            // PathVariables의 값을 핸들러 파라미터에 넣음
-            Map<String, Object> pathVariables = handlerMapping.extractPathVariables(request);
-            params.putAll(pathVariables);
-
-            // Extract args based on the extracted path variables and method signature
-
-            Object[] args = handlerMapping.extractArgsForMethod(handler, params);
-
-
-
-            MyUserResponse response = handlerAdapter.handle(userRequest, handler, args);
-
-            //과제7
-            System.out.println("Response: " + response);
-
-            //과제 10
-            System.out.println("Response: " + response.getBody());
-
-            resp.getWriter().write(response.getBody());
     }
 
 
