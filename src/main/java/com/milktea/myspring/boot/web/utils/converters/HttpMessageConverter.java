@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-public interface HttpMessageConverter<T> {
+public interface HttpMessageConverter {
     boolean canRead(Class<?> clazz, ContentType contentType);
 
     boolean canWrite(Class<?> clazz, ContentType contentType);
@@ -17,8 +17,8 @@ public interface HttpMessageConverter<T> {
     }
 
     //문자열 -> 객체
-    T read(Class<?> clazz, String inputMessage) throws IOException/*, HttpMessageNotReadableException*/;
+    Object read(Class<?> clazz, String inputMessage) throws IOException/*, HttpMessageNotReadableException*/;
 
     //객체 -> 문자열
-    String write(T t, ContentType contentType) throws IOException/*, HttpMessageNotWritableException*/;
+    String write(Object t, ContentType contentType) throws IOException/*, HttpMessageNotWritableException*/;
 }

@@ -5,6 +5,7 @@ import com.milktea.myspring.boot.web.utils.converters.ContentType;
 import com.milktea.myspring.boot.web.utils.converters.HttpMessageConverter;
 import com.milktea.myspring.boot.web.utils.converters.MappingJackson2HttpMessageConverter;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,8 +13,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Parameter;
 
-public class RequestBodyMethodArgumentResolver implements HandlerMethodArgumentResolver {
-    HttpMessageConverter<?> httpMessageConverter;
+public class RequestResponseBodyMethodProcessor implements HandlerMethodArgumentResolver, HandlerMethodReturnValueHandler {
+    HttpMessageConverter httpMessageConverter = new MappingJackson2HttpMessageConverter();
     @Override
     public boolean supportsParameter(Parameter parameter) {
         return parameter.isAnnotationPresent(RequestBody.class);
@@ -33,8 +34,25 @@ public class RequestBodyMethodArgumentResolver implements HandlerMethodArgumentR
         return result;
     }
 
+    @Override
+    public boolean supportsReturnType(Class<?> returnType) {
+        return true;
+    }
+
+    @Override
+    public void handleReturnValue(Object returnValue, Class<?> returnType, HttpServletResponse response) {
+        try {
+            if (httpMessageConverter.canWrite(returnType, ContentType.fromString(response.getContentType()))) {
+                String responseBody = httpMessageConverter.write(returnValue, ContentType.fromString(response.getContentType()));
+                response.getWriter().write(responseBody);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private String getBody(HttpServletRequest request) {
-        String body = null;
+        String body;
         StringBuilder stringBuilder = new StringBuilder();
 
         try (InputStream inputStream = request.getInputStream();
@@ -54,4 +72,4 @@ public class RequestBodyMethodArgumentResolver implements HandlerMethodArgumentR
 
         return body;
     }
- }
+}

@@ -1,6 +1,7 @@
 package com.milktea.myspring.boot.web.servlet;
 
 import com.milktea.myspring.boot.web.ioc.ApplicationContext;
+
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,28 +9,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 
 @WebServlet(name="MyDispatcherServlet", urlPatterns = "/*")
 
 public class DispatcherServlet extends HttpServlet {
     private final ApplicationContext context;
-
-    //웹 요청을 처리할 수 있는 핸들러(컨트롤러 메서드)를 찾는 역할
-    private HandlerMapping handlerMapping;
-
-    //찾은 핸들러를 실행하고 응답 생성을 지원
-    //private HandlerAdapter handlerAdapter;
-
-    @Override
-
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-    }
+    private final HandlerMapping handlerMapping;
 
     public DispatcherServlet(ApplicationContext context) {
         this.context = context;
@@ -38,29 +25,19 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String requestMethod = "POST";
-        String requestURL = req.getRequestURI();
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+    }
 
-        System.out.println("MyServletDispatcher.doPost: " + req.getRequestURI());
-
-        //UserRequest userRequest = new UserRequest(requestMethod, requestURL, requestBody);
-        //System.out.printf("requestMethod : %s\n", requestMethod);
-        //System.out.printf("requestUrl : %s\n", requestURL);
-        //System.out.printf("requestBody : %s\n", requestBody);
-        //dispatch(userRequest, resp);
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doDispatch(request, response);
     }
 
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String requestMethod = "GET";
-        String requestURL = req.getRequestURI();
-
-        System.out.println("MyServletDispatcher.doGet: " + req.getRequestURI());
-
-        //UserRequest userRequest = new UserRequest(requestMethod, requestURL, "");
-        //dispatch(userRequest, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doDispatch(request, response);
     }
 
     //doService 내부에 포함
@@ -75,17 +52,11 @@ public class DispatcherServlet extends HttpServlet {
         adapter.handle(request, response, handler);
 
         //4. 핸들러 어댑터가 반환한 값 반환
-
+        //ModelAndView 반환 지원하지 않음
     }
-
-
-
 
     public void startListening() {
 
     }
-
-
-    // implement your code
 
 }

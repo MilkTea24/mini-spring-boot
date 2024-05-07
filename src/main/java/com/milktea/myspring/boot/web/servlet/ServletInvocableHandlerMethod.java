@@ -1,7 +1,6 @@
 package com.milktea.myspring.boot.web.servlet;
 
 import com.milktea.myspring.boot.web.ioc.ApplicationContext;
-import com.milktea.myspring.boot.web.ioc.SingletonBeanFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -15,15 +14,26 @@ public class ServletInvocableHandlerMethod {
     ApplicationContext context;
 
     List<HandlerMethodArgumentResolver> resolvers;
+
+    List<HandlerMethodReturnValueHandler> returnValueHandlers;
+
     public ServletInvocableHandlerMethod(Method handler, List<HandlerMethodArgumentResolver> resolvers) {
         this.handler = handler;
         this.resolvers = resolvers;
+        this.returnValueHandlers = List.of(new RequestResponseBodyMethodProcessor()); //현재 하나밖에 지원하지 않음
     }
 
     public void invokeAndHandle(HttpServletRequest request, HttpServletResponse response) {
         Object returnValue = invokeForRequest(request);
 
-        //handleForResponse(response);
+        handleForResponse(response, returnValue);
+    }
+
+    private void handleForResponse(HttpServletResponse response, Object returnValue) {
+        for (HandlerMethodReturnValueHandler returnValueHandler : returnValueHandlers) {
+            if (returnValueHandler.supportsReturnType(handler.getReturnType()))
+                returnValueHandler.handleReturnValue(returnValue, handler.getReturnType(), response);
+        }
     }
 
     public void setContext(ApplicationContext context) {

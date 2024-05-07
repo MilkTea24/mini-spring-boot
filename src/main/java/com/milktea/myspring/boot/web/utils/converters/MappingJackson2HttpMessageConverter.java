@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
-public class MappingJackson2HttpMessageConverter implements HttpMessageConverter<Object> {
-    private ObjectMapper objectMapper = new ObjectMapper();
+public class MappingJackson2HttpMessageConverter implements HttpMessageConverter {
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public boolean canRead(Class<?> clazz, ContentType contentType) {
