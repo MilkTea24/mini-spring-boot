@@ -2,10 +2,7 @@ package com.milktea.myspring.boot.web.servlet;
 
 import com.milktea.myspring.boot.web.ioc.AnnotationConfigApplicationContext;
 import com.milktea.myspring.boot.web.ioc.ApplicationContext;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,5 +61,4 @@ public class DispatcherServletTest {
         //then
         Assertions.assertEquals(responseBody, response.stringWriter.toString());
     }
-
 }

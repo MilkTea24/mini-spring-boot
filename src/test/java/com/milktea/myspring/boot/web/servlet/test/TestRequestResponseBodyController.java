@@ -3,7 +3,7 @@ package com.milktea.myspring.boot.web.servlet.test;
 import com.milktea.myspring.annotations.GetMapping;
 import com.milktea.myspring.annotations.RequestBody;
 import com.milktea.myspring.annotations.RestController;
-import edu.pnu.myspring.annotations.PostMapping;
+import com.milktea.myspring.annotations.PostMapping;
 
 @RestController
 public class TestRequestResponseBodyController {
