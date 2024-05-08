@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
     <persistence-unit name="pnu.cse">
-        <class>com.example.week13.p05.Player</class>
-        <class>com.example.week13.p05.Club</class>
-        <class>com.example.week13.p05.Country</class>
         <properties>
             <!-- 필수 속성 -->
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
