@@ -13,8 +13,6 @@ import java.util.Map;
 
 public class RequestMappingHandlerMapping implements HandlerMapping {
     private final ControllerRegistry controllerRegistry;
-    private boolean pathVariableFlag = false;
-    private Map<String, Object> pathVariables = new HashMap<>();
     private Class<?> controllerClass;
 
 
@@ -33,6 +31,7 @@ public class RequestMappingHandlerMapping implements HandlerMapping {
 
             Method[] methods = controllerClass.getDeclaredMethods();
             handler = processMappingAnnotation(request, methods);
+            if (handler != null) break;
         }
 
         if (handler == null) throw new RuntimeException("Request에 대응하는 핸들러를 찾을 수 없습니다 : " + request.getMethod() + " " + request.getRequestURI());
