@@ -24,6 +24,7 @@ public class DefaultConversionService implements ConversionService {
     public void addDefaultConverters() {
         converters.add(new StringToLongConverter());
         converters.add(new StringToIntegerConverter());
+        converters.add(new StringToBooleanConverter());
     }
 
     @Override
