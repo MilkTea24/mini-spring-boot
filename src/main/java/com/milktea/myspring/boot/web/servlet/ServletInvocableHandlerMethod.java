@@ -62,6 +62,7 @@ public class ServletInvocableHandlerMethod {
 
     private Object doInvoke(Object[] args) {
         try {
+            System.out.println("invoke " + handler.getName() + " method");
             return handler.invoke(getControllerInstance(handler), args);
         } catch (Exception e) {
             e.printStackTrace();

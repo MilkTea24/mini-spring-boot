@@ -42,6 +42,7 @@ public class RequestResponseBodyMethodProcessor implements HandlerMethodArgument
     @Override
     public void handleReturnValue(Object returnValue, Class<?> returnType, HttpServletResponse response) {
         try {
+            response.setContentType(ContentType.JSON.getFullName());
             if (httpMessageConverter.canWrite(returnType, ContentType.fromString(response.getContentType()))) {
                 String responseBody = httpMessageConverter.write(returnValue, ContentType.fromString(response.getContentType()));
                 response.getWriter().write(responseBody);
