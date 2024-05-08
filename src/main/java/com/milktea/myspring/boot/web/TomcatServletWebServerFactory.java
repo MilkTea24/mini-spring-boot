@@ -2,6 +2,7 @@ package com.milktea.myspring.boot.web;
 
 import com.milktea.myspring.boot.web.ioc.AnnotationConfigApplicationContext;
 import com.milktea.myspring.boot.web.ioc.ApplicationContext;
+import com.milktea.myspring.boot.web.servlet.DispatcherServlet;
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 
@@ -12,7 +13,7 @@ public class TomcatServletWebServerFactory {
     
     private Tomcat tomcat;
 
-    /*
+
     public Tomcat getWebServer(Class<?> clazz, ApplicationContext context) {
         createTomcatServer();
 
@@ -25,11 +26,11 @@ public class TomcatServletWebServerFactory {
 
 
     private static void setServletConfigurations(Context webContext, ApplicationContext context) {
-        Tomcat.addServlet(webContext, "MyServletDispatcher", new ServletDispatcher(context));
+        Tomcat.addServlet(webContext, "MyServletDispatcher", new DispatcherServlet(context));
 
         webContext.addServletMappingDecoded("/*", "MyServletDispatcher");
 
-        webContext.addApplicationListener(ServletContextListener.class.getName());
+        //webContext.addApplicationListener(ServletContextListener.class.getName());
     }
 
     private Context createWebContext() {
@@ -47,5 +48,4 @@ public class TomcatServletWebServerFactory {
         tomcat.setPort(PORT);
         tomcat.getConnector(); // Trigger the creation of the default connector
     }
-     */
 }
