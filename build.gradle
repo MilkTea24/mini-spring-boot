@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group = 'com.milktea'
@@ -8,7 +9,6 @@ version = '0.1-SNAPSHOT'
 java {
     sourceCompatibility = '17'
 }
-
 
 repositories {
     mavenCentral()
