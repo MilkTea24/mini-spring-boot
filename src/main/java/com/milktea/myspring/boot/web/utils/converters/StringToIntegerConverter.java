@@ -8,6 +8,6 @@ public class StringToIntegerConverter implements Converter<String, Integer> {
 
     @Override
     public boolean matches(Class<?> source, Class<?> target) {
-        return source == String.class && target == Integer.class;
+        return source == String.class && (target == Integer.class || target == int.class);
     }
 }

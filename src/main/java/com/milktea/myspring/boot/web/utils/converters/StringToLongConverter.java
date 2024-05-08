@@ -8,6 +8,6 @@ public class StringToLongConverter implements Converter<String, Long> {
 
     @Override
     public boolean matches(Class<?> source, Class<?> target) {
-        return source == String.class && target == Long.class;
+        return source == String.class && (target == Long.class || target == long.class);
     }
 }
