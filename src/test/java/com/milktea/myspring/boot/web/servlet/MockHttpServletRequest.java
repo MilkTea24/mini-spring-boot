@@ -218,7 +218,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public String getContentType() {
-        return null;
+        return "application/json";
     }
 
     @Override
