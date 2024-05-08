@@ -1,4 +1,4 @@
-package com.milktea.myspring.boot.web.servlet;
+package com.milktea.myspring.boot.web.servlet.test;
 
 import com.milktea.myspring.annotations.GetMapping;
 import com.milktea.myspring.annotations.PostMapping;

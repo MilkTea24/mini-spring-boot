@@ -8,10 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class MockHttpServletRequest implements HttpServletRequest {
     String method;
@@ -20,10 +17,13 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     ServletInputStream servletInputStream;
 
-    public MockHttpServletRequest(String method, String requestPath, String requestBody) {
+    Map<String, String[]> parameters;
+
+    public MockHttpServletRequest(String method, String requestPath, String requestBody, Map<String, String[]> parameters) {
         this.method = method;
         this.requestPath = requestPath;
         this.servletInputStream = transferToServletInputStream(requestBody);
+        this.parameters = parameters;
     }
 
     @Override
@@ -228,22 +228,22 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
     @Override
     public String getParameter(String name) {
-        return null;
+        return parameters.get(name)[0];
     }
 
     @Override
     public Enumeration<String> getParameterNames() {
-        return null;
+        return Collections.enumeration(parameters.keySet());
     }
 
     @Override
     public String[] getParameterValues(String name) {
-        return new String[0];
+        return (String[])parameters.values().toArray();
     }
 
     @Override
     public Map<String, String[]> getParameterMap() {
-        return null;
+        return parameters;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.milktea.myspring.boot.web.servlet;
 
 import com.milktea.myspring.boot.web.ioc.AnnotationConfigApplicationContext;
 import com.milktea.myspring.boot.web.ioc.ApplicationContext;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +24,7 @@ public class RequestMappingHandlerMappingTest {
     @Test
     void request_mapping_get_handler_success_test() throws Exception {
         //given
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/user/1/order/2", "hello");
+        HttpServletRequest request = new MockHttpServletRequest("GET", "/user/1/order/2", "hello", null);
 
         //when
         Method resultHandler = handlerMapping.getHandler(request);
@@ -36,7 +37,7 @@ public class RequestMappingHandlerMappingTest {
     @Test
     void request_mapping_get_handler_fail_test() throws Exception {
         //given
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/user/order", "hello");
+        HttpServletRequest request = new MockHttpServletRequest("GET", "/user/order", "hello", null);
 
         //when, then
         Assertions.assertThrows(RuntimeException.class, () -> handlerMapping.getHandler(request));
@@ -46,7 +47,7 @@ public class RequestMappingHandlerMappingTest {
     @Test
     void get_mapping_get_handler_success_test() throws Exception {
         //given
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/user/1/details", "hello");
+        HttpServletRequest request = new MockHttpServletRequest("GET", "/user/1/details", "hello", null);
 
         //when
         Method resultHandler = handlerMapping.getHandler(request);
@@ -59,7 +60,7 @@ public class RequestMappingHandlerMappingTest {
     @Test
     void post_mapping_get_handler_success_test() throws Exception {
         //given
-        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/user/1/details/order", "hello");
+        HttpServletRequest request = new MockHttpServletRequest("POST", "/user/1/details/order", "hello", null);
 
         //when
         Method resultHandler = handlerMapping.getHandler(request);
@@ -72,7 +73,7 @@ public class RequestMappingHandlerMappingTest {
     @Test
     void post_mapping_get_handler_invalid_method_fail_test() throws Exception {
         //given
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/user/1/details/order", "hello");
+        HttpServletRequest request = new MockHttpServletRequest("GET", "/user/1/details/order", "hello", null);
 
         //when, then
         Assertions.assertThrows(RuntimeException.class, () -> handlerMapping.getHandler(request));
