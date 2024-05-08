@@ -13,7 +13,7 @@ public class SingletonBeanFactory implements BeanFactory {
         beanDefinitionRegistry = scanner.getBeanDefinitionRegistry();
     }
 
-    public BeanRegistry getBeanRegistry() {
+    public SingletonBeanRegistry getBeanRegistry() {
         return instanceRegistry;
     }
 

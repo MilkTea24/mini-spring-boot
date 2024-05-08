@@ -3,7 +3,7 @@ package com.milktea.myspring.boot.web.ioc;
 public interface BeanFactory {
     void createBeans();
 
-    BeanRegistry getBeanRegistry();
+    SingletonBeanRegistry getBeanRegistry();
 
     BeanDefinitionRegistry getBeanDefinitionRegistry();
 }

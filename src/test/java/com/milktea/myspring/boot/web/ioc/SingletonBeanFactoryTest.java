@@ -32,7 +32,7 @@ public class SingletonBeanFactoryTest {
         singletonBeanFactory.createBeans();
 
         //then
-        BeanRegistry instanceRegistry = singletonBeanFactory.getBeanRegistry();
+        SingletonBeanRegistry instanceRegistry = singletonBeanFactory.getBeanRegistry();
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.A.class));
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.B.class));
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.C.class));
@@ -57,7 +57,7 @@ public class SingletonBeanFactoryTest {
         singletonBeanFactory.createBeans();
 
         //then
-        BeanRegistry instanceRegistry = singletonBeanFactory.getBeanRegistry();
+        SingletonBeanRegistry instanceRegistry = singletonBeanFactory.getBeanRegistry();
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.D.class));
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.E.class));
         Assertions.assertNotNull(instanceRegistry.getSingleton(ClassList.F.class));
@@ -83,7 +83,7 @@ public class SingletonBeanFactoryTest {
         singletonBeanFactory.createBeans();
 
         //then
-        BeanRegistry instanceRegistry = singletonBeanFactory.getBeanRegistry();
+        SingletonBeanRegistry instanceRegistry = singletonBeanFactory.getBeanRegistry();
         ClassList.D instanceD = (ClassList.D) instanceRegistry.getSingleton(ClassList.D.class);
         Assertions.assertNotNull(instanceD.e);
         Assertions.assertNotNull(instanceD.f);

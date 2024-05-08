@@ -18,7 +18,7 @@ public class CommonAnnotationBeanPostProcessorTest {
         Map<Class<?>, Object> instances = new HashMap<>();
         instances.put(ClassList.F.class, new ClassList.F());
         instances.put(ClassList.G.class, new ClassList.G());
-        BeanRegistry beanRegistry = new DefaultSingletonBeanRegistry(instances);
+        SingletonBeanRegistry beanRegistry = new DefaultSingletonBeanRegistry(instances);
 
         List<BeanDefinition> beanDefinitionList = new ArrayList<>();
         beanDefinitionList.add(new BeanDefinition(ClassList.F.class));
@@ -62,10 +62,10 @@ public class CommonAnnotationBeanPostProcessorTest {
     }
 
     class MockBeanFactory implements BeanFactory {
-        BeanRegistry beanRegistry;
+        SingletonBeanRegistry beanRegistry;
         BeanDefinitionRegistry beanDefinitionRegistry;
 
-        private MockBeanFactory(BeanRegistry beanRegistry, BeanDefinitionRegistry beanDefinitionRegistry) {
+        private MockBeanFactory(SingletonBeanRegistry beanRegistry, BeanDefinitionRegistry beanDefinitionRegistry) {
             this.beanRegistry = beanRegistry;
             this.beanDefinitionRegistry = beanDefinitionRegistry;
         }
@@ -75,7 +75,7 @@ public class CommonAnnotationBeanPostProcessorTest {
         }
 
         @Override
-        public BeanRegistry getBeanRegistry() {
+        public SingletonBeanRegistry getBeanRegistry() {
             return beanRegistry;
         }
 

@@ -7,6 +7,13 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-public @interface PathVariable {
+public @interface RequestParam {
     String value() default "";
+
+    String name() default "";
+
+    boolean required() default true;
+
+    String defaultValue() default "";
+
 }

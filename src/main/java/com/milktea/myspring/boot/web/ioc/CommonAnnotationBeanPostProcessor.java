@@ -11,7 +11,7 @@ public class CommonAnnotationBeanPostProcessor {
 
     public void postConstruct() {
         Map<Class<?>, BeanDefinition> beanDefinitions = beanFactory.getBeanDefinitionRegistry().getBeanDefinitions();
-        BeanRegistry beanRegistry = beanFactory.getBeanRegistry();
+        SingletonBeanRegistry beanRegistry = beanFactory.getBeanRegistry();
 
         for (BeanDefinition bd : beanDefinitions.values()) {
             if (bd.hasPostConstructMethod()) evokePostConstruct(bd, beanRegistry.getSingleton(bd.getBeanType()));
@@ -21,7 +21,7 @@ public class CommonAnnotationBeanPostProcessor {
 
     public void preDestroy() {
         Map<Class<?>, BeanDefinition> beanDefinitions = beanFactory.getBeanDefinitionRegistry().getBeanDefinitions();
-        BeanRegistry beanRegistry = beanFactory.getBeanRegistry();
+        SingletonBeanRegistry beanRegistry = beanFactory.getBeanRegistry();
 
         for (BeanDefinition bd : beanDefinitions.values()) {
             if (bd.hasPreDestroyMethod()) evokePreDestroy(bd, beanRegistry.getSingleton(bd.getBeanType()));

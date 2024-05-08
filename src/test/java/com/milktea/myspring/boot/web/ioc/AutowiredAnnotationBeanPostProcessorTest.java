@@ -19,7 +19,7 @@ public class AutowiredAnnotationBeanPostProcessorTest {
         instances.put(ClassList.A.class, new ClassList.A());
         instances.put(ClassList.B.class, new ClassList.B());
         instances.put(ClassList.C.class, new ClassList.C());
-        BeanRegistry beanRegistry = new DefaultSingletonBeanRegistry(instances);
+        SingletonBeanRegistry beanRegistry = new DefaultSingletonBeanRegistry(instances);
 
         List<BeanDefinition> beanDefinitionList = new ArrayList<>();
         beanDefinitionList.add(new BeanDefinition(ClassList.A.class));
@@ -48,10 +48,10 @@ public class AutowiredAnnotationBeanPostProcessorTest {
     }
 
     class MockBeanFactory implements BeanFactory {
-        BeanRegistry beanRegistry;
+        SingletonBeanRegistry beanRegistry;
         BeanDefinitionRegistry beanDefinitionRegistry;
 
-        private MockBeanFactory(BeanRegistry beanRegistry, BeanDefinitionRegistry beanDefinitionRegistry) {
+        private MockBeanFactory(SingletonBeanRegistry beanRegistry, BeanDefinitionRegistry beanDefinitionRegistry) {
             this.beanRegistry = beanRegistry;
             this.beanDefinitionRegistry = beanDefinitionRegistry;
         }
@@ -61,7 +61,7 @@ public class AutowiredAnnotationBeanPostProcessorTest {
         }
 
         @Override
-        public BeanRegistry getBeanRegistry() {
+        public SingletonBeanRegistry getBeanRegistry() {
             return beanRegistry;
         }
 
