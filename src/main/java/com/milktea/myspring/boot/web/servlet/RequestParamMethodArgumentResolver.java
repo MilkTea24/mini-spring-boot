@@ -33,14 +33,17 @@ public class RequestParamMethodArgumentResolver implements HandlerMethodArgument
     private Object resolveRequestParamParameter(Parameter parameter, HttpServletRequest request) {
         RequestParam requestParam = parameter.getAnnotation(RequestParam.class);
 
-        String parameterName = requestParam.name().isBlank() ? parameter.getName() : requestParam.name();
-        String requestParameter = request.getParameter(parameterName);
+        String parameterName = requestParam.value().isBlank() ? parameter.getName() : requestParam.value();
+        String requestParameter = null;
+        try {
+            requestParameter = request.getParameter(parameterName);
+        } catch (NullPointerException e) {}
 
-        if (requestParameter.isBlank() && requestParam.required()) {
+        if (requestParameter == null && requestParam.required()) {
             throw new RuntimeException("해당하는 Parameter를 바인딩할 수 없습니다. : " + parameterName);
         }
 
-        if (requestParameter.isBlank() && !requestParam.defaultValue().isBlank()) {
+        if (requestParameter == null && !requestParam.defaultValue().isBlank()) {
             return conversionService.convert(requestParam.defaultValue(), parameter.getType());
         }
 

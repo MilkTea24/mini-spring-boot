@@ -28,6 +28,8 @@ public class DefaultConversionService implements ConversionService {
 
     @Override
     public <T> T convert(Object source, Class<?> targetType) {
+        if (source == null) return null;
+
         for (Converter<?, ?> converter : converters) {
             if (converter.matches(source.getClass(), targetType)) {
                 Converter<Object, Object> objectConverter = (Converter<Object, Object>) converter;
@@ -36,4 +38,6 @@ public class DefaultConversionService implements ConversionService {
         }
         return null;
     }
+
+
 }
