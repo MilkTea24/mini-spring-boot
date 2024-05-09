@@ -55,7 +55,48 @@ public class Application {
 구현 세부 사항은 하단의 **부록.구현 세부 사항**을 참고하세요.
 
 # 4. 설치하기
+## 1) JAR 파일 다운로드
+- 현재 프로젝트의 터미널에서 `./gradlew shadowJar`을 실행하여 Jar 파일을 얻기
+- 또는 [여기서](https://drive.google.com/file/d/1_IBzAZdsGh6cRvsjzLcNOt6i1-Rh-aby/view?usp=drive_link) 다운로드
 
+만약 `./gradlew shadowJar`를 실행했을 때 sourceCompatibility = '17' 관련 오류가 생길 경우 [여기](https://stackoverflow.com/questions/31833029/intellij-idea-terminal-java-version-issue)를 참고하여 터미널의 JAVA_HOME 환경 변수를 변경하면 됩니다.
+
+## 2) 프로젝트 만들기
+JDK 버전을 17, 빌드 툴 gradle로 선택하여 새로운 자바 프로젝트를 생성한다.
+
+## 3) JAR 파일 새로운 프로젝트에 넣기
+프로젝트의 root 디렉토리에 libs 폴더를 생성하고 libs 폴더에 JAR 파일을 넣는다.
+![img_6.png](img_6.png)
+
+## 4) 새로운 프로젝트의 build.gradle 수정하기
+build.gradle의 dependencies에 다음과 같은 코드를 추가한다.
+```groovy
+    implementation files('libs/mini-springboot-0.1-SNAPSHOT-all.jar')
+```
+
+## 5) 설치 완료
+만약 여전히 @SpringBootApplication과 같은 어노테이션을 찾을 수 없다면 프로젝트를 종료한 후 다시 실행한다.
+
+# 5. 실행 결과
+
+## 실행하기
+
+### 프로젝트 코드 작성하기
+@SpringBootApplication 어노테이션이 붙고 SpringApplication.run을 실행하는 클래스의 패키지 하위에 Controller, Service, Repository 클래스를 생성한다.
+
+### Postman으로 요청 보내기
+현재 **프로젝트 Tomcat 서버의 포트는 9090**이므로 "http://localhost:9090/요청URL" 형태로 전송한다.
+
+## 실행 결과
+### POST 결과
+![img_7.png](img_7.png)
+
+![img_8.png](img_8.png)
+
+### GET 결과
+![img_9.png](img_9.png)
+
+![img_10.png](img_10.png)
 
 # 부록. 구현 세부 사항
 ## SpringApplication 구현
