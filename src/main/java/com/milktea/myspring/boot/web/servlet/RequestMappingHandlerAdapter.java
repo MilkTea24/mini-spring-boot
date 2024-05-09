@@ -17,14 +17,6 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter {
         getDefaultArgumentResolvers();
     }
 
-    private void getDefaultArgumentResolvers() {
-        resolvers = new ArrayList<>();
-
-        resolvers.add(new RequestParamMethodArgumentResolver());
-        resolvers.add(new PathVariableMethodArgumentResolver());
-        resolvers.add(new RequestResponseBodyMethodProcessor());
-    }
-
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, Method handler) {
         invokeHandlerMethod(request, response, handler);
@@ -36,5 +28,13 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter {
         invocableMethod.setContext(context);
 
         invocableMethod.invokeAndHandle(request, response);
+    }
+
+    private void getDefaultArgumentResolvers() {
+        resolvers = new ArrayList<>();
+
+        resolvers.add(new RequestParamMethodArgumentResolver());
+        resolvers.add(new PathVariableMethodArgumentResolver());
+        resolvers.add(new RequestResponseBodyMethodProcessor());
     }
 }

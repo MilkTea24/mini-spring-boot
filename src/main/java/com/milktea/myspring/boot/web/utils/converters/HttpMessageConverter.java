@@ -11,7 +11,7 @@ public interface HttpMessageConverter {
 
     List<ContentType> getSupportedMediaTypes();
 
-    default List<ContentType> getSupportedMediaTypes(Class<?> clazz) {
+    default List<ContentType> getSupportedMediaType(Class<?> clazz) {
         return (canRead(clazz, null) || canWrite(clazz, null) ?
                 getSupportedMediaTypes() : Collections.emptyList());
     }

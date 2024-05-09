@@ -13,7 +13,6 @@ import java.util.Map;
 
 public class RequestMappingHandlerMapping implements HandlerMapping {
     private final ControllerRegistry controllerRegistry;
-    private Class<?> controllerClass;
 
 
     public RequestMappingHandlerMapping(ControllerRegistry controllerRegistry) {
@@ -27,7 +26,7 @@ public class RequestMappingHandlerMapping implements HandlerMapping {
         Method handler = null;
 
         for (Map.Entry<Class<?>, Object> entry : controllerBeans.entrySet()) {
-            controllerClass = entry.getKey();
+            Class<?> controllerClass = entry.getKey();
 
             Method[] methods = controllerClass.getDeclaredMethods();
             handler = processMappingAnnotation(request, methods);
