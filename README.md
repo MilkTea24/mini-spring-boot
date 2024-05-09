@@ -57,7 +57,7 @@ public class Application {
 # 4. 설치하기 🌱
 ## 1) JAR 파일 다운로드
 - 현재 프로젝트의 터미널에서 `./gradlew shadowJar`을 실행하여 Jar 파일을 얻기
-- 또는 [여기서](https://drive.google.com/file/d/1_IBzAZdsGh6cRvsjzLcNOt6i1-Rh-aby/view?usp=drive_link) 다운로드
+- 또는 [여기서](https://drive.google.com/file/d/1mb7PA5r0yQJnm8t9mQAwZIiAzvOKXgZv/view?usp=drive_link) 다운로드
 
 만약 `./gradlew shadowJar`를 실행했을 때 sourceCompatibility = '17' 관련 오류가 생길 경우 [여기](https://stackoverflow.com/questions/31833029/intellij-idea-terminal-java-version-issue)를 참고하여 터미널의 JAVA_HOME 환경 변수를 변경하면 됩니다.
 
@@ -74,6 +74,15 @@ build.gradle의 dependencies에 다음과 같은 코드를 추가한다.
     implementation files('libs/mini-springboot-0.1-SNAPSHOT-all.jar')
 ```
 
+다음과 같은 코드도 build.gradle에 추가한다.
+```groovy
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-parameters"
+    }
+}
+```
+
 ## 5) 설치 완료
 만약 여전히 @SpringBootApplication과 같은 어노테이션을 찾을 수 없다면 프로젝트를 종료한 후 다시 실행한다.
 
@@ -88,13 +97,23 @@ build.gradle의 dependencies에 다음과 같은 코드를 추가한다.
 현재 **프로젝트 Tomcat 서버의 포트는 9090**이므로 "http://localhost:9090/요청URL" 형태로 전송한다.
 
 ## 실행 결과
+[샘플 프로젝트](https://github.com/MilkTea24/mini-springboot-sample)를 실행한 결과입니다.
+
 ### POST 결과
+1. 첫번째 사용자 등록
+
 ![img_7.png](img_7.png)
+
+2. 두번째 사용자 등록
 
 ![img_8.png](img_8.png)
 
 ### GET 결과
+1. 두번째 사용자의 세부 정보 출력하기
+
 ![img_9.png](img_9.png)
+
+2. 두번째 사용자의 간단한 정보 출력하기
 
 ![img_10.png](img_10.png)
 
@@ -105,6 +124,9 @@ build.gradle의 dependencies에 다음과 같은 코드를 추가한다.
 ### SpringApplication
 SpringApplication의 `run` 메서드가 실행되면 `createApplicationContext` 메서드로 Spring Container를 초기화한다.
 이후 TomcatServletWebServerFactory의 `getWebServer`가 실행되어 Tomcat 클래스를 반환하고 이 Tomcat을 실행하여 웹 어플리케이션이 실행된다.
+
+### TomcatServletWebServerFactory
+Tomcat 클래스의 생성과 설정을 담당한다.
 
 ## Spring Container 구현
 ![img.png](img.png)
