@@ -3,13 +3,9 @@ package com.milktea.myspring.boot.web;
 import com.milktea.myspring.annotations.SpringBootApplication;
 import com.milktea.myspring.boot.web.ioc.AnnotationConfigApplicationContext;
 import com.milktea.myspring.boot.web.ioc.ApplicationContext;
-import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 
-import java.io.File;
-
 public class SpringApplication {
-        public static final int PORT = 9090;
         public static ApplicationContext run(Class<?> clazz, String... args) {
 
             if (!clazz.isAnnotationPresent(SpringBootApplication.class)) {

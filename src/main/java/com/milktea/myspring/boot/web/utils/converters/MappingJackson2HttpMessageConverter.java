@@ -30,7 +30,7 @@ public class MappingJackson2HttpMessageConverter implements HttpMessageConverter
     }
 
     @Override
-    public List<ContentType> getSupportedMediaTypes(Class<?> clazz) {
+    public List<ContentType> getSupportedMediaType(Class<?> clazz) {
         return List.of(ContentType.JSON);
     }
 

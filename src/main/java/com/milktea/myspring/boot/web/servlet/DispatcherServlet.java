@@ -18,6 +18,8 @@ public class DispatcherServlet extends HttpServlet {
     private final ApplicationContext context;
     private final HandlerMapping handlerMapping;
 
+    private HandlerAdapter handlerAdapter;
+
     public DispatcherServlet(ApplicationContext context) {
         this.context = context;
 
@@ -46,17 +48,13 @@ public class DispatcherServlet extends HttpServlet {
         Method handler = handlerMapping.getHandler(request);
 
         //2. 핸들러 어댑터 조회(현재는 핸들러 어댑터 전략이 하나밖에 없으므로 바로 반환)
-        HandlerAdapter adapter = new RequestMappingHandlerAdapter(context);
+        handlerAdapter = new RequestMappingHandlerAdapter(context);
 
         //3. 핸들러 어댑터의 핸들러 호출
-        adapter.handle(request, response, handler);
+        handlerAdapter.handle(request, response, handler);
 
         //4. 핸들러 어댑터가 반환한 값 반환
         //ModelAndView 반환 지원하지 않음
-    }
-
-    public void startListening() {
-
     }
 
 }

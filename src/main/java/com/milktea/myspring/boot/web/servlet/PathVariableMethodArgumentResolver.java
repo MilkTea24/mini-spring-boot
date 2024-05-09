@@ -14,7 +14,7 @@ import java.lang.reflect.Parameter;
 import java.util.Map;
 
 public class PathVariableMethodArgumentResolver implements HandlerMethodArgumentResolver {
-    ConversionService conversionService = DefaultConversionService.getInstance();
+    private ConversionService conversionService = DefaultConversionService.getInstance();
 
     @Override
     public boolean supportsParameter(Parameter parameter) {

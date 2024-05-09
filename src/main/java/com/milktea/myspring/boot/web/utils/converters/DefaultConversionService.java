@@ -19,12 +19,6 @@ public class DefaultConversionService implements ConversionService {
         return instance;
     }
 
-    public void addDefaultConverters() {
-        converters.add(new StringToLongConverter());
-        converters.add(new StringToIntegerConverter());
-        converters.add(new StringToBooleanConverter());
-    }
-
     @Override
     public <T> T convert(Object source, Class<?> targetType) {
         if (source == null) return null;
@@ -39,4 +33,9 @@ public class DefaultConversionService implements ConversionService {
     }
 
 
+    private void addDefaultConverters() {
+        converters.add(new StringToLongConverter());
+        converters.add(new StringToIntegerConverter());
+        converters.add(new StringToBooleanConverter());
+    }
 }

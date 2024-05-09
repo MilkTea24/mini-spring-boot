@@ -1,6 +1,5 @@
 package com.milktea.myspring.boot.web;
 
-import com.milktea.myspring.boot.web.ioc.AnnotationConfigApplicationContext;
 import com.milktea.myspring.boot.web.ioc.ApplicationContext;
 import com.milktea.myspring.boot.web.servlet.DispatcherServlet;
 import org.apache.catalina.Context;
