@@ -1,9 +1,9 @@
-# Mini-SpringBoot
+# Mini-SpringBoot 🌱
 > ***SpringBoot는 사드세요.....***
 
 2023년 2학기 플랫폼기반 프로그래밍 과제 기반 Java Reflection API를 이용하여 SpringBoot를 직접 구현해보는 프로젝트
 
-# 1. 프로젝트 소개
+# 1. 프로젝트 소개 🌱
 2023년 2학기 플랫폼기반 프로그래밍에서 크게 다음과 같은 과제를 수행하였다.
 1. Bean Validation 구현하기
 2. Spring Container 구현하기
@@ -13,7 +13,7 @@
 이 중 Spring Container, Dispatcher Servlet 구현했던 과제를 리팩토링하고 기능을 추가하여 **Mini-SpringBoot**를 구현하였다. 
 리팩토링 시 여러 클래스로 분리하여 응집도를 향상하고 인터페이스에 의존하여 확장에 유연하게 만드는데 초점을 두었다.
 
-# 2. 구현한 기능
+# 2. 구현한 기능 🌱
 ## SpringApplication
 - 기존 스프링부트 프로젝트처럼 아래와 같이 `run`을 실행하면 Spring Container가 초기화되고 Dispatcher Servlet이 활성화된다.
 ```java
@@ -39,7 +39,7 @@ public class Application {
 ## WAS
 - 프로젝트에 내장된 WAS가 있어 요청을 보내고 받을 수 있다.
 
-# 3. UML
+# 3. UML 🌱
 ## SpringApplication
 ![img_5.png](img_5.png)
 
@@ -54,7 +54,7 @@ public class Application {
 
 구현 세부 사항은 하단의 **부록.구현 세부 사항**을 참고하세요.
 
-# 4. 설치하기
+# 4. 설치하기 🌱
 ## 1) JAR 파일 다운로드
 - 현재 프로젝트의 터미널에서 `./gradlew shadowJar`을 실행하여 Jar 파일을 얻기
 - 또는 [여기서](https://drive.google.com/file/d/1_IBzAZdsGh6cRvsjzLcNOt6i1-Rh-aby/view?usp=drive_link) 다운로드
@@ -77,7 +77,7 @@ build.gradle의 dependencies에 다음과 같은 코드를 추가한다.
 ## 5) 설치 완료
 만약 여전히 @SpringBootApplication과 같은 어노테이션을 찾을 수 없다면 프로젝트를 종료한 후 다시 실행한다.
 
-# 5. 실행 결과
+# 5. 실행 결과 🌱
 
 ## 실행하기
 
@@ -98,9 +98,13 @@ build.gradle의 dependencies에 다음과 같은 코드를 추가한다.
 
 ![img_10.png](img_10.png)
 
-# 부록. 구현 세부 사항
+# 부록. 구현 세부 사항 🌱
 ## SpringApplication 구현
 ![img_5.png](img_5.png)
+
+### SpringApplication
+SpringApplication의 `run` 메서드가 실행되면 `createApplicationContext` 메서드로 Spring Container를 초기화한다.
+이후 TomcatServletWebServerFactory의 `getWebServer`가 실행되어 Tomcat 클래스를 반환하고 이 Tomcat을 실행하여 웹 어플리케이션이 실행된다.
 
 ## Spring Container 구현
 ![img.png](img.png)
