@@ -41,16 +41,16 @@ public class Application {
 
 # 3. UML 🌱
 ## SpringApplication
-![img_5.png](img_5.png)
+![img_5.png](images/img_5.png)
 
 ## Spring Container
-![img.png](img.png)
+![img.png](images/img.png)
 
 ## Dispatcher Servlet
-![img_1.png](img_1.png)
+![img_1.png](images/img_1.png)
 
 ## Utils
-![img_4.png](img_4.png)
+![img_4.png](images/img_4.png)
 
 구현 세부 사항은 하단의 **부록.구현 세부 사항**을 참고하세요.
 
@@ -66,7 +66,7 @@ JDK 버전을 17, 빌드 툴 gradle로 선택하여 새로운 자바 프로젝�
 
 ## 3) JAR 파일 새로운 프로젝트에 넣기
 프로젝트의 root 디렉토리에 libs 폴더를 생성하고 libs 폴더에 JAR 파일을 넣는다.
-![img_6.png](img_6.png)
+![img_6.png](images/img_6.png)
 
 ## 4) 새로운 프로젝트의 build.gradle 수정하기
 build.gradle의 dependencies에 다음과 같은 코드를 추가한다.
@@ -100,29 +100,29 @@ gradle.projectsEvaluated {
 [샘플 프로젝트](https://github.com/MilkTea24/mini-springboot-sample)를 실행한 결과입니다.
 
 ### PostConstruct 실행 결과
-![img_11.png](img_11.png)
+![img_11.png](images/img_11.png)
 
 ### POST 결과
 1. 첫번째 사용자 등록
 
-![img_7.png](img_7.png)
+![img_7.png](images/img_7.png)
 
 2. 두번째 사용자 등록
 
-![img_8.png](img_8.png)
+![img_8.png](images/img_8.png)
 
 ### GET 결과
 1. 두번째 사용자의 세부 정보 출력하기
 
-![img_9.png](img_9.png)
+![img_9.png](images/img_9.png)
 
 2. 두번째 사용자의 간단한 정보 출력하기
 
-![img_10.png](img_10.png)
+![img_10.png](images/img_10.png)
 
 # 부록. 구현 세부 사항 🌱
 ## SpringApplication 구현
-![img_5.png](img_5.png)
+![img_5.png](images/img_5.png)
 
 ### SpringApplication
 SpringApplication의 `run` 메서드가 실행되면 `createApplicationContext` 메서드로 Spring Container를 초기화한다.
@@ -132,7 +132,7 @@ SpringApplication의 `run` 메서드가 실행되면 `createApplicationContext` 
 Tomcat 클래스의 생성과 설정을 담당한다.
 
 ## Spring Container 구현
-![img.png](img.png)
+![img.png](images/img.png)
 
 ### ApplicationContext, AnnotationConfigApplicationContext
 컨테이너 기능을 가진 인터페이스와 이를 상속하는 클래스이다.
@@ -161,7 +161,7 @@ BasePackage 하위 패키지의 파일들을 탐색하여 @RestController, @Serv
 또한 `close()`가 호출되어 ApplicationContext가 종료될 때 @PreDestory 어노테이션을 가진 메서드를 실행하도록 하였다.
 
 ## Dispatcher Servlet 구현
-![img_1.png](img_1.png)
+![img_1.png](images/img_1.png)
 
 ### DispatcherServlet
 Spring 컨테이너인 ApplicationContext를 보고 실행할 컨트롤러 메서드인 핸들러를 찾고 실행한다.
@@ -173,7 +173,7 @@ Spring 컨테이너인 ApplicationContext를 보고 실행할 컨트롤러 메�
 요청 URL과 @GetMapping, @PostMapping 패턴과의 일치 여부는 SimplePathPatternParser의 메서드를 호출하여 검증한다.
 
 ### HandlerAdapter, RequestMappingHandlerAdapter
-![img_2.png](img_2.png)
+![img_2.png](images/img_2.png)
 
 출처: 김영한님 "스프링 MVC 1편 - 백엔드 웹 개발 핵심 기술" 강의 자료
 
@@ -201,7 +201,7 @@ RequestResponseBodyMethodProcessor는 실행한 결과를 ResponseBody에 담아
 이 때 실행한 결과를 ResponseBody로 변환할 때 HttpMessageConverter를 활용한다.
 
 ## Utils 클래스들 구현
-![img_4.png](img_4.png)
+![img_4.png](images/img_4.png)
 
 ### ConversionService, DefaultConversionService
 conversionService는 변환을 원하는 객체와 출력값을 알려주면 객체의 타입과 출력 타입을 판단하여 적절한 Converter를 호출한다.
