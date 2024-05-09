@@ -55,6 +55,7 @@ public class ServletInvocableHandlerMethod {
                 if (!resolver.supportsParameter(parameters[i])) continue;
 
                 results[i] = resolver.resolveArgument(parameters[i], request);
+                break;
             }
         }
         return results;
