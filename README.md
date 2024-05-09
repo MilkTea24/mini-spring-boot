@@ -99,6 +99,9 @@ gradle.projectsEvaluated {
 ## 실행 결과
 [샘플 프로젝트](https://github.com/MilkTea24/mini-springboot-sample)를 실행한 결과입니다.
 
+### PostConstruct 실행 결과
+![img_11.png](img_11.png)
+
 ### POST 결과
 1. 첫번째 사용자 등록
 
