@@ -1,7 +1,7 @@
 # Mini-SpringBoot 🌱
 > ***SpringBoot는 사드세요.....***
 
-2023년 2학기 플랫폼기반 프로그래밍 과제 기반 Java Reflection API를 이용하여 SpringBoot를 직접 구현해보는 프로젝트
+Java Reflection API를 이용하여 SpringBoot를 직접 구현해보는 프로젝트
 
 # 1. 프로젝트 소개 🌱
 2023년 2학기 플랫폼기반 프로그래밍에서 크게 다음과 같은 과제를 수행하였다.
