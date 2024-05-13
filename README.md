@@ -4,14 +4,8 @@
 Java Reflection API를 이용하여 SpringBoot를 직접 구현해보는 프로젝트
 
 # 1. 프로젝트 소개 🌱
-2023년 2학기 플랫폼기반 프로그래밍에서 크게 다음과 같은 과제를 수행하였다.
-1. Bean Validation 구현하기
-2. Spring Container 구현하기
-3. Dispatcher Servlet 구현하기
-4. JPA Repository 구현하기
-
-이 중 Spring Container, Dispatcher Servlet 구현했던 과제를 리팩토링하고 기능을 추가하여 **Mini-SpringBoot**를 구현하였다. 
-리팩토링 시 여러 클래스로 분리하여 응집도를 향상하고 인터페이스에 의존하여 확장에 유연하게 만드는데 초점을 두었다.
+Java 수업에서 어노테이션의 활용을 배우면서 간단한 빈 생성 등을 구현해보는 실습을 하였다.
+이 실습은 개인적으로 아주 재미있었고 이를 고도화하여 Mini-SpringBoot 프로젝트를 완성하였다.
 
 # 2. 구현한 기능 🌱
 ## SpringApplication
