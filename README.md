@@ -5,7 +5,7 @@ Java Reflection API를 이용하여 SpringBoot를 직접 구현해보는 프로�
 
 # 1. 프로젝트 소개 🌱
 Java 수업에서 어노테이션의 활용을 배우면서 간단한 빈 생성 등을 구현해보는 실습을 하였다.
-이 실습은 개인적으로 아주 재미있었고 이를 고도화하여 Mini-SpringBoot 프로젝트를 완성하였다.
+이 실습은 개인적으로 아주 재미있었고 이를 고도화하여 간단한 Restful API를 지원하는 Mini-SpringBoot 프로젝트를 완성하였다.
 
 # 2. 구현한 기능 🌱
 ## SpringApplication
